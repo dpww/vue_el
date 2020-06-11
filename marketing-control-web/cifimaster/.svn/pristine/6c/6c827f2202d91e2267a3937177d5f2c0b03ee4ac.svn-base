@@ -1,0 +1,479 @@
+<template>
+  <div class="offerUnsubscribe app-container">
+    <el-row class="container">
+      <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse-item  name="1">
+          <template slot="title">
+            <h3 class="titleText">基本信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">事业部:退订</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input1" placeholder="浙江事业部"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">项目名称：</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input2" placeholder="绿地旭辉城（杭州）-绿地旭辉城全期"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">发起人:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input3" placeholder="系统管理员"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">发起日期:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input4" placeholder="2019-09-09"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">合作方参与审批:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input5" placeholder="是"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n"></el-col>
+                  <el-col :span="16" class="bd_n bd_r"></el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item  name="2">
+               <template slot="title">
+            <h3 class="titleText">房间信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">房间:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input6" placeholder="皮卡丘"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">成交价格:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input7" placeholder="棒棒棒"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">付款方式:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input8" placeholder="旭辉绿地旭辉城(杭州)旭辉绿地旭辉城"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">首次付款时间:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input9" placeholder="2019-09-09"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">首付比例(%):</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input10" placeholder="59.97m2"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">首付金额:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input11" placeholder="29,558.26元  /  m2"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <!-- <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">认购总价:</el-col>
+                  <el-col :span='16' class="bd_n">
+                    <el-input v-model='input12' placeholder='1,671,693.00元'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">是否申请折扣:</el-col>
+                  <el-col :span='16' class="bd_n bd_r">
+                    <el-input v-model='input13' placeholder='是'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">折扣信息:</el-col>
+                  <el-col :span='16' class="bd_n">
+                    <el-input v-model='input14' placeholder='97折'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">已到账金额:</el-col>
+                  <el-col :span='16' class="bd_n bd_r">
+                    <el-input v-model='input15' placeholder='5000元'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>-->
+          </div>
+        </el-collapse-item>
+        <el-collapse-item  name="4">
+             <template slot="title">
+            <h3 class="titleText">购房人信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">客户名称:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input16" placeholder="直系亲属更名"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">员工/高管姓名:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input17" placeholder="棒棒棒"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">与购房人关系:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input18" placeholder="1000元"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">员工职级:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input19" placeholder="客户申请直系亲属更名"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">备注:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input18" placeholder="1000元"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n"></el-col>
+                  <el-col :span="16" class="bd_n bd_r"></el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="5">
+           <template slot="title">
+            <h3 class="titleText">附件</h3>
+          </template>
+          <!-- <div class="content">
+            <div class="footer">
+              <h2>直系亲属更名必须上传直系亲属证明文件</h2>
+              <ul class="footer_list">
+                <li>更名原因的凭证</li>
+                <li>《解除协议（更名使用）》</li>
+                <li>直系亲属证明</li>
+              </ul>
+            </div>
+          </div>
+          <el-form>
+            <el-form-item label="附件">
+              <el-upload
+                class="upload-demo"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                multiple
+                :limit="3"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
+            </el-form-item> -->
+          </el-form>
+        </el-collapse-item>
+      </el-collapse>
+    </el-row>
+  </div>
+</template>
+
+<script>
+import processForm from "@/views/component/form.vue";
+import { sendJSONALLPATH } from "@/api/request";
+import { weekPlanSort } from "@/utils/methods";
+import {testhuan} from "@/api/offerFlow"
+// import { examineInfo } from "@/api/offerFlow";
+export default {
+  name: "offerUnsubscribe",
+  components: {
+    processForm
+  },
+  data() {
+    return {
+      list: [
+        {
+          title: "基本信息",
+          type: "transverse",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input"
+            },
+            {
+              title: "事业部",
+              type: "select",
+              name: "select",
+              options: [
+                {
+                  label: "选项1",
+                  value: 1
+                },
+                {
+                  label: "选项2",
+                  value: "2"
+                }
+              ]
+            },
+            {
+              title: "radio",
+              type: "radio",
+              options: [
+                {
+                  label: "选项1",
+                  value: "1"
+                },
+                {
+                  label: "选项2",
+                  value: "2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          title: "基本信息2",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input2"
+            }
+          ]
+        },
+        {
+          title: "基本信息3",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input3"
+            }
+          ]
+        }
+      ],
+      values: {
+        input: 123,
+        select: 1,
+        input2: 12,
+        input3: 1,
+        radio: 2
+      },
+      activeNames: ["1", "2", "3", "4", "5"],
+      value1: "",
+      input1: "浙江事业部",
+      input2: "绿地旭辉城（杭州）-绿地旭辉城全期111111111111111111111111111111",
+      input3: "系统管理员",
+      input4: "2019-09-09",
+      input5: "是",
+      input6: "皮卡丘",
+      input7: "棒棒棒",
+      input8: "旭辉绿地旭辉城(杭州)旭辉绿地旭辉城",
+      input9: "2019-09-09",
+      input10: "59.97m2",
+      input11: "29,558.26元  /  m2",
+      input12: '1,671,693.00元',
+      input13: '是',
+      input14: '97折',
+      input15: '5000元',
+      input16: "直系亲属更名",
+      input17: "棒棒棒",
+      input18: "1000元",
+      input19: "客户申请直系亲属更名"
+    };
+  },
+  methods: {
+    handleChange(val) {
+      console.log(val);
+    }
+  },
+  created() {
+
+    /*
+      //加载周计划程序已加载至2028年如果需要重新初始化打开注释重新发送，发送结束后请注释掉一下的代码
+      let sendList=[];
+      for(let i=2018;i<=2028;i++){
+        for(let j=1;j<=12;j++){
+          sendList.push(...weekPlanSort(`${i}-${j}-01`,true));
+        }
+      }
+      sendJSONAllPath('http://192.168.34.66:8001/weekRule/getCommonWeekRule',{_param:sendList}); */
+  }
+};
+</script>
+<style lang="less" scoped>
+.el-col-8{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+</style>
+<style lang='less'>
+
+.offerUnsubscribe {
+
+  .content {
+    padding: 0 20px;
+  }
+
+.titleText{
+      border-left: 3px solid #2661FF;
+    height: 20px;
+    line-height: 20px;
+    text-indent: 1em;
+    font-size: 16px;
+}
+.container
+    input.el-input__inner {
+      font-size: 12px;
+      color: #333;
+      border: none;
+      background-color: #fff;
+    }
+  input.el-input__inner {
+    font-size: 12px;
+    color: #333;
+    // background-color: pink;
+      overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+
+  input::placeholder {
+    font-size: 12px;
+  }
+
+  .bd_w {
+    border-top: 1px solid #ccc;
+
+    .bd_n {
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 12px;
+
+      &:first-child {
+        border-right: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        text-align: right;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .bd_r {
+      border-right: 1px solid #ccc;
+    }
+  }
+
+  .more {
+    padding: 0 20px;
+
+    .bd_left {
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-left: 1px solid #ccc;
+    }
+
+    .bd_bottom {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+
+  .footer {
+    h2 {
+      padding-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .footer_list {
+      list-style: none;
+
+      li {
+        height: 30px;
+        line-height: 30px;
+        color: #2761ff;
+        list-style: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+</style>

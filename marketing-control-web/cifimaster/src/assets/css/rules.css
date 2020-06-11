@@ -1,0 +1,387 @@
+.el-row {
+    margin-bottom: 20px;
+}
+
+.el-col {
+    border-radius: 4px;
+}
+
+.grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+}
+.grid-content .collapse-btn {
+  position: absolute;
+  right: 0px;
+  top: 10px;
+}
+
+.row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+}
+
+.rule-nav {
+    line-height: 50px;
+    font-size: 16px;
+}
+
+.rule-nav>span {
+    padding-left: 20px;
+    font-size: 12px;
+    color: #666;
+}
+
+.rule-introduce {
+    /* padding-bottom: 15px; */
+    color: #666;
+    font-size: 14px;
+    /* padding-top   : 15px; */
+    line-height: 56px;
+    border-bottom: 1px dashed #f0f0f0;
+    border-bottom: 1px dashed #f0f0f0 !important;
+    padding-left: 8px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #333;
+}
+
+.el-collapse,
+.el-collapse-item__wrap {
+    border-bottom: 1px dashed #f0f0f0 !important;
+}
+
+.fold-rule {
+    width: 100%;
+    position: relative;
+    background: #fff;
+    box-shadow: 0 0 8px #ebeef5;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+    box-sizing: border-box;
+}
+
+.fold-rule .el-collapse-item__header {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #fcfcfc;
+    height: 56px;
+}
+
+.fold-rule .el-collapse-item__wrap {
+    border-bottom: 1px solid #fcfcfc;
+}
+
+.rule-zindex {
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    left: 0;
+    width: 95%;
+}
+
+.fold-rule .el-collapse {
+    border-top: 1px solid transparent;
+    border-bottom: 1px sol transparent;
+}
+
+.rule-select {
+    position: relative;
+}
+
+.fold-rule .el-collapse-item__content {
+    /* background : #fcfcfc; */
+    border: 1px solid #fcfcfc;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 0px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    float: left;
+    width: 100%;
+    padding-bottom: 0px;
+}
+
+.rule-select .el-input__inner {
+    /* height     : 32px; */
+    /* line-height: 32px; */
+    padding-left: 190px;
+    font-size: 12px;
+}
+
+.rule-select>div {
+    float: left;
+    line-height: 40px;
+}
+
+.rule-zindex .el-row {
+    margin-bottom: 0;
+}
+
+.rule-select>div:nth-child(1) {
+    padding-left: 15px;
+    font-size: 12px;
+    color: #666;
+}
+
+.rule-div-input {
+    position: absolute;
+    z-index: 99;
+}
+
+.rule-select>div:nth-child(2) {
+    width: 98%;
+    position: absolute;
+    z-index: 1;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+.rule-select>div:nth-child(2) .el-select {
+    width: 100%;
+    background: transparent;
+}
+
+.rule-select>div:nth-child(2) .el-input__inner {
+    background: transparent;
+    width: 100%;
+}
+
+.rule-select>div:nth-child(2) .el-input__icon {
+    line-height: 40px;
+}
+
+.optionvule {
+    font-size: 12px;
+}
+
+.agent {
+    width: 100%;
+    padding: 8px;
+    background: #fff;
+    box-shadow: 0 0 8px #ebeef5;
+    height: 57px;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+    position: relative;
+}
+
+.table-list {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.table-list .el-input__inner {
+    height: 32px;
+    line-height: 32px;
+}
+
+.form-btn {
+    clear: both;
+}
+
+.fold-rules .el-row {
+    margin-bottom: 0;
+}
+
+.fold-rules .grid-content {
+    min-height: 40px;
+}
+
+.size-font {
+    clear: both;
+    font-size: 12px;
+    color: #666;
+    line-height: 30px;
+}
+
+.rule-select-ng1 .el-input__inner {
+    padding-left: 90px;
+}
+
+.form-buttonng {
+    margin-top: 0;
+    padding-left: 0;
+}
+
+.form-buttonng .el-button {
+    line-height: 32px;
+    height: 32px;
+    padding: 0 15px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+}
+
+.form-buttonng .el-row {
+    margin-bottom: 0;
+}
+
+.datablock .el-range-editor.el-input__inner {
+    padding: 0;
+    padding-left: 15px;
+}
+
+.datablock .el-date-editor .el-range-separator {
+    padding: 0;
+    line-height: 40px;
+}
+
+.datablock .el-range-input {
+    background: transparent;
+}
+
+.datablock {
+    position: static;
+}
+
+.task-table-list .table-list {
+    margin-top: 0;
+}
+
+.four-teen {
+    line-height: 40px;
+    font-size: 12px;
+    color: #666;
+}
+
+.el-col {
+    margin-bottom: 8px;
+}
+
+.export {
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 20px 0;
+    float: right;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.rule-span {
+    line-height: 36x;
+    color: #666;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.rule-span span:nth-child(2) {
+    border: 1px solid #DCDFE6;
+    ;
+    border-radius: 4px;
+    line-height: 38px;
+    display: inline-block;
+    padding: 0 20px;
+    height: 36px;
+    box-sizing: border-box;
+}
+
+.rule-span button {
+    padding: 0 20px;
+    height: 36px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background: #409EFF;
+    color: #fff;
+    border: 1px solid #409EFF;
+    margin-left: 15px;
+    outline: none;
+}
+
+.input-mask {
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin: auto;
+    /* position  : relative; */
+    height: 100%;
+}
+
+.input-bottom {
+    padding: 20px 0;
+    padding-top: 1px solid #eee;
+}
+
+.input-bottom button {
+    float: left;
+}
+
+.tree-default {
+    width: 100%;
+    height: 400px;
+    overflow: auto;
+}
+
+.etable {
+    width: 100%;
+    margin-top: 12px;
+    border: 1px solid #f0f0f0;
+    border-bottom: none;
+}
+
+.demo-ruleForm {
+    margin: 0 20px;
+}
+
+.el-form-item__label {
+    font-weight: normal;
+}
+
+.el-select {
+    width: 100%;
+}
+
+.demo-drawer__footer {
+    margin-left: 50px;
+}
+
+.page-submit {
+    clear: both;
+    justify-content: space-between;
+    display: flex;
+    margin-top: 5px;
+    padding-left: 12px;
+    box-sizing: border-box;
+}
+
+.bgcolor .el-collapse-item__wrap {
+    background: #fff !important;
+}
+
+.merge-whole {
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.el-collapse-item__content {
+    padding-bottom: 0 !important;
+}
+
+.bg-purple-input {
+    /* padding-left: 0 !important;
+    padding-right  : 0 !important; */
+}
+
+.bgc_blue,
+.el-button--primary {
+    border: 1px solid #f0f0f0 !important;
+}
+
+.rule-navtitle {
+    padding-left: 8px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+    box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 0 8px #ebeef5;
+}

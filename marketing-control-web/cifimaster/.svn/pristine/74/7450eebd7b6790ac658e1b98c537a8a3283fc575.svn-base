@@ -1,0 +1,277 @@
+<template>
+  <div>
+    <process-form title="一揽子分期政策审批" :formlist.sync="list" :value.sync="value" :btns="btns"></process-form>
+    <el-dialog title="请选择政策楼栋" :visible.sync="dialogFormVisible">
+      <el-form>
+        <el-tree ref="floor" :data="floorInfo" :props="{label:'building_name',children:'buildData'}" node-key="building_id" show-checkbox></el-tree>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="getSelectedFloor">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+<script>
+  import processForm from "@/views/component/formV2.vue";
+  import {sendJSON} from "@/api/request.js";
+  export default {
+    components: {
+      processForm
+    },
+    created(){
+      this.getProject();
+    },
+    methods: {
+      getValue(){
+        sendJSON("/package/insertPackageStages").then(res=>{
+          console.log(res);
+        });
+      },
+      /* 获取项目信息*/
+      getProject(){
+        sendJSON("/package/getProjects",{userId:localStorage.getItem('id')}).then(res=>{
+          this.$set(this.list[0].inputList[3],'options',res.result.map(item=>({label:item.ProjectName,value:item.projectId})));
+        });
+      },
+      /* 获取楼栋信息*/
+      getFloor(){
+        if(this.projectId){
+          //getBuildingData||getBuildingAndFormatsData
+          sendJSON("/package/getBuildingAndFormatsData",{projectId:this.projectId}).then(res=>{
+            this.floorInfo=[{building_name:res.result.data.projectName,building_id:this.projectId,buildData:res.result.data.buildAndFormat}];
+            this.dialogFormVisible = true;
+          })
+        }else{
+          this.$message.error("请先选择项目");
+        }
+      },
+      /* 获取已选楼栋*/
+      getSelectedFloor(){
+        this.example.next(this.$refs.floor.getCheckedNodes());//获取已选楼栋
+        this.dialogFormVisible = false;
+      },
+      selectFloor:function*(name,value){
+         let selectedFloor=yield this.getFloor();
+        console.log(value,selectedFloor);
+      }
+    },
+    computed:{
+
+    },
+    data() {
+      let _self=this;
+      return {
+        projectId:'',//项目Id
+        dialogFormVisible: false,//dialog
+        floorInfo:[],
+        example:'',
+        btns:[
+          {name:"test",callback(v,l){
+            console.log(v);
+          }},
+        ],
+        value:{
+          applicantName:'陆卫平',
+          departmentName:'营销管理部',
+          applicantTime:'2019-10-10',
+          projectName:'吴越府',
+          iteaName:"关于吴越府的一揽子分期申请",
+          basePolicy:'一揽子破底政策审批(3个点以上)',
+          allLossPrice:"整盘货值≥2%折损",
+          profitNetprofit:'对标战规版利润额<3000万折损or战规版利润率<3%折损',
+          startDay:'2019-10-10',
+          endDay:'2019-10-31',
+          numtTotal:'30',
+          policy:[
+            {
+              basePolicy:'4%',
+              itemAllLoss:'200',
+              itemAllLossNetprofit:'1.5',
+              iitemProfitLoss:'150',
+              iitemNetprofitLoss:'4',
+              buildingType:'1号楼(别墅)',
+              building:{},
+              itemNum:'25'
+            },
+            {
+              basePolicy:'5%',
+              itemAllLoss:'250',
+              itemAllLossNetprofit:'2',
+              iitemProfitLoss:'180',
+              iitemNetprofitLoss:'4.5',
+              buildingType:'2号楼(别墅)',
+              itemNum:'5'
+            }
+          ]
+        },
+        list: [{
+          title: "基础信息",
+          mode: 'transverse',
+          numbers: 3,
+          inputList: [{
+              label: '申请人',
+              type: "text",
+              name: "applicantName"
+            },
+            {
+              label: '申请人部门',
+              type: "text",
+              name: "departmentName"
+            },
+            {
+              label: '申请时间',
+              type: "text",
+              name: "applicantTime"
+            },
+            {
+              label: '项目名称',
+              type: "select",
+              name: "projectName",
+              options:[{label:"test",value:123}],
+              changeEvent(info){
+                _self.projectId=info.value;
+              }
+            }
+          ]
+
+        }, {
+          title: "政策信息",
+          mode: 'transverse',
+          numbers: 3,
+          inputList: [{
+              label: '关键事项名称',
+              type: "text",
+              name: "iteaName",
+              numbers:1
+            },
+            {
+              label: '一揽子分期政策类别',
+              type: "text",
+              name: "basePolicy"
+            },
+            {
+              label: '分期时间类别',
+              type: "text",
+              name: "allLossPrice"
+            },
+
+            {
+              label: '政策开始时间',
+              type: "text",
+              name: "startTime"
+            },
+            {
+              label: '政策结束时间',
+              type: "text",
+              name: "endTime"
+            },
+            {
+              label: '合计套数',
+              type: "text",
+              name: "numTotal"
+            }
+          ]
+        }, {
+          title: "政策明细",
+          mode: 'vertical',
+          dataName:['policy'],
+          hasIndex:true,
+          showSummary:[function(params){
+            const { columns, data } = params;
+            const sums = [];
+            const unitList=['itemAllLossNetprofit','iitemNetprofitLoss'];
+            columns.forEach((column, index) => {
+              if (index === 0) {
+                sums[index] = '合计';
+                return;
+              }
+              const values = data.map(item =>{
+                return Number(item[column.property])
+              } );
+              if (!values.every(value => isNaN(value))) {
+                sums[index] = values.reduce((prev, curr) => {
+                  const value = Number(curr);
+                  if (!isNaN(value)) {
+                    return prev + curr;
+                  } else {
+                    return prev;
+                  }
+                }, 0);
+                if(unitList.indexOf(column.property)!=-1)
+                sums[index] += '%';
+              } else {
+                sums[index] = '';
+              }
+            });
+            return sums;
+          }],
+          inputList: [{
+              label: '破底政策',
+              type: "text",
+              name: "basePolicy"
+            },
+            {
+              label: '整盘货值折损',
+              type: "text",
+              name: "itemAllLoss"
+            },
+            {
+              label: '整盘货值折损率',
+              type: "text",
+              name: "itemAllLossNetprofit",
+              unit:'%'
+            },
+            {
+              label: '战规版利润额折损（万元）',
+              type: "text",
+              name: "iitemProfitLoss",
+
+            },
+            {
+              label: '战规版净利率折损',
+              type: "text",
+              name: "iitemNetprofitLoss",
+              unit:'%'
+            },
+            {
+              label: '楼栋',
+              type: "custom",
+              name: "buildingType",
+              callback(name,value){
+                _self.example=_self.selectFloor(name,value);
+                _self.example.next();
+              }
+              /* callback(name, value) {
+                console.log(name,value);
+                let promise=new Promise((resolve,reject)=>{
+                  _self.getFloor().then(()=>{
+                    console.log("打开了弹窗");
+                  }).catch(err=>{
+                    console.log("未打开弹窗");
+                  });
+                });
+              } */
+            },
+            {
+              label: '套数',
+              type: "text",
+              name: "itemNum"
+            },
+            {
+              label: '申请正文',
+              type: "longTextarea",
+              name: "content",
+              level:1,
+              numbers:1,
+              mode:'transverse'
+            },
+          ]
+        }]
+      }
+    }
+  }
+</script>
+
+<style>
+</style>

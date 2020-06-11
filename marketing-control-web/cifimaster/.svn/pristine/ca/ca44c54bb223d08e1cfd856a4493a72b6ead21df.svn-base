@@ -1,0 +1,151 @@
+<template>
+  <div class="y_input" :style="{marginLeft:form_item.type==='longTextarea'?'-'+labelWidth:0}">
+    <div :style="{width:form_item.type==='longTextarea'?'100%':form_item.width||'auto'}" style="display: inline-block;">
+    <!-- 文本模式 -->
+    <template v-if="form_item.type==='info'">
+      <span>{{values[form_item.name]}}</span>
+      <span v-if="form_item.unit">{{form_item.unit}}</span>
+    </template>
+    <!-- input 类型-->
+    <template v-else-if="form_item.type==='input'||form_item.type==='text'">
+      <el-input :clearable="form_item.clear" :disabled="form_item.disable" v-model="values[form_item.name]"
+        :placeholder="form_item.placeholder||''" :style="form_item.unit&&{width:'85%'}"></el-input>
+      <span v-if="form_item.unit">{{form_item.unit}}</span>
+    </template>
+    <!-- select 类型-->
+    <el-select v-else-if="form_item.type==='select'" @change="selectChange(form_item.changeEvent,{...form_item,value:values[form_item.name]})" :disabled="form_item.disable" v-model="values[form_item.name]"
+      :placeholder="form_item.placeholder||''" >
+      <el-option v-for="(ops,opsIndex) in form_item.options" :label="ops.label" :value="ops.value" :key="opsIndex"></el-option>
+    </el-select>
+    <!-- 单选框类型 -->
+    <el-radio-group v-else-if="form_item.type==='radio'" v-model="values[form_item.name]">
+      <el-radio v-for="(ops,opsIndex) in form_item.options" :disabled="ops.disable" :key="opsIndex"
+        :label="ops.value">{{ops.label}}</el-radio>
+    </el-radio-group>
+    <!--复选框类型 -->
+    <el-checkbox-group v-else-if="form_item.type==='checkbox'" v-model="values[form_item.name]">
+      <el-checkbox v-for="(ops,opsIndex) in form_item.options" :disabled="ops.disable" :key="opsIndex"
+        :label="ops.value">{{ops.label}}</el-checkbox>
+    </el-checkbox-group>
+    <!-- 时间选择-->
+    <el-time-picker v-else-if="form_item.type==='time'" :placeholder="form_item.placeholder||''"
+      :picker-options="{selectableRange: '00:00:00 - 23:59:59'}" :disabled="form_item.disable" v-model="values[form_item.name]"></el-time-picker>
+    <!-- 时间范围选择-->
+    <el-time-picker v-else-if="form_item.type==='timeRange'" is-range :range-separator="form_item.spacer||'至'"
+      v-model="values[form_item.name]" :start-placeholder="form_item.startPlaceholder||'开始时间'"
+      :end-placeholder="form_item.endPlaceholder||'结束时间'" :clearable="form_item.clear" :disabled="form_item.disable"></el-time-picker>
+    <!-- 日期选择-->
+    <el-date-picker v-else-if="form_item.type==='date'" :type="form_item.dateType" :clearable="form_item.clear"
+      :placeholder="form_item.placeholder||''" :start-placeholder="form_item.startPlaceholder||'开始日期'"
+      :end-placeholder="form_item.endPlaceholder||'结束日期'" :disabled="form_item.disable" v-model="values[form_item.name]"></el-date-picker>
+    <!-- 附件-->
+    <el-upload v-else-if="form_item.type==='upFile'" :action="form_item.action" multiple :limit="3"
+      :on-success="uploadSuccess" :on-error="uploadError" :file-list="form_item.fileList">
+      <el-button  v-if="!form_item.disable" type="primary" class="xuHuiBtn secondary">{{form_item.btnInfo}}</el-button>
+      <div slot="tip" class="el-upload__tip" v-if="form_item.info">{{form_item.info}}</div>
+    </el-upload>
+    <!-- 附件列表-->
+    <div  v-else-if="form_item.type==='fileList'">
+      <ul>
+        <li v-for="(file,fileIndex) in form_item.fileList" :key="fileIndex">
+          <a :href="file.url" download="download">{{file.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <!-- 满宽textarea类型-->
+    <template v-else-if="form_item.type==='longTextarea'">
+      <el-input :clearable="form_item.clear" type="textarea" style="padding-left: 10px;"  :disabled="form_item.disable" v-model="values[form_item.name]"
+        :placeholder="form_item.placeholder||''"></el-input>
+      <span v-if="form_item.unit">{{form_item.unit}}</span>
+    </template>
+    <!-- 按钮-->
+    <div v-else-if="form_item.type==='button'">
+      <el-button size="small" v-for="(btn,btnIndex) in form_item.btns" :key="btnIndex" @click="btnHandle(btn.callback,params)" class="xuHuiBtn" :class="btn.classes?btn.classes:'secondary'">
+        {{btn.name}}
+      </el-button>
+    </div>
+    <!-- 自定义模式 -->
+    <template v-else-if="form_item.type==='custom'">
+      <el-input :clearable="form_item.clear" :disabled="form_item.disable" :value="values[form_item.name]"
+        :placeholder="form_item.placeholder||''">
+        <i slot="suffix" class="el-input__icon" :class="'el-icon-'+(form_item.icon||'edit-outline')" @click="inputHandle(form_item,values)"></i>
+      </el-input>
+    </template>
+    <!-- 任意el-input -->
+    <el-input v-else :clearable="form_item.clear" :type="form_item.type" :disabled="form_item.disable" v-model="values[form_item.name]"
+      :placeholder="form_item.placeholder||''"></el-input>
+    </div>
+  </div>
+</template>
+<script>
+	export default {
+	    name: "yInput",
+	    methods: {
+	      uploadSuccess(res) {
+	        this.$message.success("上传成功");
+	      },
+	      uploadError() {
+	        this.$message.error("上传失败");
+	      },
+        btnHandle(callback,params){
+          callback(params);
+        },
+        /* 自定义图标的按钮*/
+        inputHandle(formItem,value){
+          if(formItem.callback){
+            formItem.callback.bind(this)(formItem.name,value);
+          }else{
+            console.warn("没有回调函数");
+          }
+        },
+        selectChange(callback,item){
+          callback&&callback(item);
+        }
+	    },
+	    props: {
+	      form_item: {//输入框详情
+	        type: Object,
+	        default:()=> {
+            type:'info'
+          }
+	      },
+        values:{//表单值
+          type:Object,
+          default:()=>{}
+        },
+        params:{//表单参数
+          type:Object,
+          default:()=>{}
+        },
+        labelWidth:{
+          type:String,
+          default:'180px'
+        }
+	    }
+	  }
+	</script>
+
+<style lang="scss">
+  .y_input{
+    [class*=" el-icon-"], [class^=el-icon-]{
+      margin-right: 0;
+      color: inherit;
+      opacity: 0.85;
+      cursor: pointer;
+      text-shadow: 0px 0px 2px transparent;
+      &:hover{
+        opacity: 1;
+        text-shadow:0px 0px 2px #ccc ;
+      }
+    }
+    .el-input{
+      width: 100%;
+    }
+    ul{
+      list-style: none;
+      li a{
+        color: #2761ff;
+      }
+    }
+  }
+</style>

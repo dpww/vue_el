@@ -1,0 +1,167 @@
+<template>
+   <div class="areaWeeklyData app-container">
+     <el-row class="container">
+      <div class="top">
+        <div class="top_l fl">营销周计划详情</div>
+        <div class="top_r fr"  v-if="$store.state.user.userPower.includes('导出数据')"><el-button type='primary'><a :href="exportTemp()" download="download">导出数据</a></el-button></div>
+      </div>
+     </el-row>
+     <el-row class="container">
+      <div class="areaWeeklyForm">
+        <el-table :data="areaWeeklyData" row-key='id'  style="width: 100%" :height='tableHeight'  lazy :load="load" :default-expand-all="true"
+         :tree-props="{children: 'children', hasChildren: 'hasChildren2'}" align='center'>
+          <el-table-column prop="project_name" fixed label="事业部/项目" width="200" header-align='center' ></el-table-column>
+          <el-table-column label="项目信息" align='center'>
+            <el-table-column prop="project_code" align='center' label="项目编码" width='100'></el-table-column>
+            <el-table-column prop="trader_name" align='center' label="操盘手"  width='100'></el-table-column>
+            <el-table-column prop="islast" label="是否尾盘" align='center'  width='100'></el-table-column>
+            <el-table-column prop="issales_trade" label="是否营销操盘" align='center'  width='120'></el-table-column>
+          </el-table-column>
+          <el-table-column prop="subscribe_price" align='right' label="上月未转签约认购金额(万元)" header-align='center' width="200"></el-table-column>
+          <el-table-column label="月度目标" align='center'>
+            <el-table-column prop="target_month_bearer" label="来人量(组)" align='center' width='100'></el-table-column>
+            <el-table-column prop="target_month_sign" label="签约(万元)"  header-align="center" align='right' width='100'></el-table-column>
+          </el-table-column>
+          <el-table-column label="周度目标"  align='center'>
+            <el-table-column prop="target_week_bearer" label="来人量(组)" align='center' width='100'></el-table-column>
+            <el-table-column prop="target_week_sign" label="签约(万元)"  header-align="center" align='right' width='100'></el-table-column>
+          </el-table-column>
+          <el-table-column prop="city" label="周度目标占比"  align='center'>
+            <el-table-column prop="target_week_bearer_per" label="来人量占比" align='center' width='100'></el-table-column>
+            <el-table-column prop="target_week_sign_per" label="签约占比" align='center' width='100'></el-table-column>
+          </el-table-column>
+          <el-table-column label='完成情况'  align='center' >
+            <el-table-column prop="fact_month_bearer_total" label="月度累计来人量(组)" align='center' width='150'></el-table-column>
+            <el-table-column prop="fact_month_bearer_per" label="月度来人完成率" align='center' width='150'></el-table-column>
+            <el-table-column prop="fact_week_bearer" label="周度来人量(组)" align='center' width='150'></el-table-column>
+            <el-table-column prop="fact_week_bearer_per" label="周度来人完成率" align='center' width='150'></el-table-column>
+            <el-table-column prop="fact_month_sign" label="月度签约金额(系统签约)" header-align='center' align='right' width='180'></el-table-column>
+            <el-table-column prop="fact_month_sign_per" label="月度签约完成率" align='center' width='150'></el-table-column>
+            <el-table-column prop="fact_week_sign" label="周度签约金额(万元)" align='right' width='150'></el-table-column>
+            <el-table-column prop="fact_week_sign_per" label="周度签约完成率" align='center' width='150'></el-table-column>
+            <el-table-column prop="fact_signed" label="大定未签(万元)" header-align='center' align='right' width='150'></el-table-column>
+          </el-table-column>
+          <el-table-column label='预估情况'  align='center'>
+            <el-table-column prop="plan_reserve" label="策略性预约" header-align='center' align='right' width='150'></el-table-column>
+            <el-table-column prop="plan_signed" label="大定未可签" header-align='center' align='right' width='150'></el-table-column>
+            <el-table-column prop="plan_month_lock_price" label="本月锁定金额" header-align='center' align='right' width='150'></el-table-column>
+            <el-table-column prop="plan_month_lock_per" label="本月锁定率" align='center' width='150'></el-table-column>
+            <el-table-column prop="plan_month_newsign" label="本月预估新增签约" header-align='center' align='right' width='150'></el-table-column>
+            <el-table-column prop="plan_month_sign" label="本月预估签约" header-align='center' align='right' width='150'></el-table-column>
+            <el-table-column prop="plan_week_bearer_gap" label="周度来人缺口" align='center' width='150'></el-table-column>
+            <el-table-column prop="plan_week_sign_gap" label="周度签约缺口(万元)" header-align='center' align='right' width='150'></el-table-column>
+            <el-table-column prop="plan_month_sign_gap" label="本月预估签约缺口" header-align='center' align='right' width='200'></el-table-column>
+            <el-table-column prop="gap_cause" label="缺口原因说明(3类接口存在均需说明)" align='center' width='250'></el-table-column>
+          </el-table-column>
+          <el-table-column  align="center" label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button type="text"  v-if='scope.row.is_effective == 0' style="color: red">未上报</el-button>
+              <!-- <el-button type="text" v-if='scope.row.is_effective == 2&&$store.state.user.userPower.includes("通过")' @click="handleEdit({'project_id':scope.row.project_id,'how_week':scope.row.how_week,'this_time':scope.row.this_time,'area_id':scope.row.area_id})">通过</el-button>
+              <el-button type="text" v-if='scope.row.is_effective == 1&&$store.state.user.userPower.includes("驳回")' @click="handleEdit({'project_id':scope.row.project_id,'how_week':scope.row.how_week,'this_time':scope.row.this_time,'area_id':scope.row.area_id})">驳回</el-button> -->
+              <el-button type="text" v-if='scope.row.plan_status == 1' @click="handleEdit({'project_id':scope.row.project_id,'how_week':scope.row.how_week,'this_time':scope.row.this_time,'area_id':scope.row.area_id, 'is_effective': 2})">通过</el-button>
+              <el-button type="text" v-if='scope.row.plan_status == 1' @click="handleEdit({'project_id':scope.row.project_id,'how_week':scope.row.how_week,'this_time':scope.row.this_time,'area_id':scope.row.area_id, 'is_effective': 0  })">驳回</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+     </el-row>
+     <el-row type='flex' justify='center'>
+       <el-button type='primary' @click='$router.back(-1)' class="xuHuiBtn secondary">返回</el-button>
+     </el-row>
+   </div>
+</template>
+
+<script>
+import { render,sendJSON,downLoad } from "@/api/request"
+import { sortList } from "@/utils/methods";
+let Loading;
+export default {
+  name: 'areaWeeklyParticulars',
+  data() {
+    return{
+         areaWeeklyData: [],
+         tableHeight: document.body.clientHeight - 220
+    }
+  },
+  created() {
+    this.reload();
+  },
+  methods: {
+
+     reload() {
+        sendJSON("/weeklyMarketing/ProjectExamineWeekly", {
+          "project_id": this.$route.query.project_id,
+          "this_time":  this.$route.query.this_time,
+          "how_week": this.$route.query.how_week,
+          'is_effective': 1,
+          "userId": "6d445313-3554-11e7-a3f8-5254007b6f02"
+        }).then(res => {
+          this.$data.areaWeeklyData.splice(0, this.$data.areaWeeklyData.length, ...sortList(res.result, 'business_unit_id',
+            'father_id', 'type', true));
+        });
+      },
+
+    // 表格
+     load(tree, treeNode, resolve) {
+       sendJSON('/weeklyMarketing/ProjectExamineWeekly',{
+         "project_id": this.$route.query.project_id,
+          "this_time":  this.$route.query.this_time,
+          "how_week": this.$route.query.how_week,
+         "userId": "6d445313-3554-11e7-a3f8-5254007b6f02"
+       }).then(res => {
+         console.log(res);
+         res.result.forEach(item => {
+            if (item.father_count > 0) {
+              item.hasChildren = true;
+            }
+          })
+        resolve(res.result)
+       })
+     },
+
+     // 驳回
+     handleEdit(query){
+       sendJSON('/weeklyMarketing/weekMarketingPlanEffective',{
+         ...query,
+         'is_effective': 0,
+          "userId": "6d445313-3554-11e7-a3f8-5254007b6f02"
+       }).then(res => {
+          this.$message.success("审核成功");
+          this.reload();
+       })
+     },
+    // 导出数据
+     exportTemp(){
+       let {this_time,how_week,project_id} = this.$route.query;
+       _paq.push(['trackEvent', '点击', '导出', '项目查看周报数据导出']);
+      return downLoad('/weeklyMarketing/groupWeeklyDataExport',{
+          this_time: this_time,
+          how_week: how_week,
+          projectId: project_id
+      })
+     }
+  }
+}
+</script>
+<style lang="scss">
+  @import "@/styles/form.scss";
+</style>
+
+<style lang='less' scoped>
+.areaWeeklyData{
+   .top{
+    height: 50px;
+    line-height: 50px;
+    background-color: #fff;
+    .top_l{
+      color: #2761FF;
+    }
+  }
+  .areaWeeklyForm{
+    margin-top: 10px;
+  }
+  .el-button+.el-button{
+    margin-left: 0;
+  }
+}
+</style>

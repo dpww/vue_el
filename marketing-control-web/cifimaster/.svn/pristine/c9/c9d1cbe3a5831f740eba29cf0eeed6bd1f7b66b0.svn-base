@@ -1,0 +1,729 @@
+<template>
+  <div class="offerInstallment app-container">
+    <el-row class="container">
+      <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse-item name="1">
+          <template slot="title">
+            <h3 class="titleText">基本信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">事业部:折扣</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input1" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">项目名称：</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input2" disabled></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">发起人:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input3" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">发起日期:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input4" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">合作方参与审批:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input5" disabled></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n"></el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="2">
+          <template slot="title">
+            <h3 class="titleText">认购信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">客户姓名:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input6" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">置业顾问:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input7" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">房间:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input8" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">认购日期:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input9" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">认购面积:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input10" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">认购单价:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input11" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">认购总价:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input12" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">折扣:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input13" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">折扣说明:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input14" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">已到账金额:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input15" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <!-- <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">认购总价:</el-col>
+                  <el-col :span='16' class="bd_n">
+                    <el-input v-model='input12' disabled placeholder='1,671,693.00元'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">是否申请折扣:</el-col>
+                  <el-col :span='16' class="bd_n bd_r">
+                    <el-input v-model='input13' disabled placeholder='是'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">折扣信息:</el-col>
+                  <el-col :span='16' class="bd_n">
+                    <el-input v-model='input14' disabled placeholder='97折'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span='8' class="bd_n">已到账金额:</el-col>
+                  <el-col :span='16' class="bd_n bd_r">
+                    <el-input v-model='input15' disabled placeholder='5000元'></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>-->
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="4">
+          <template slot="title">
+            <h3 class="titleText">变更信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">预计签约时间:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input16" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">预计优惠幅度:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input17" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">预计签约单价:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input18" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">预计签约总价:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input19" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">分期类型:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input20" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">分期子类:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input21" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">是否一揽子政策:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input22" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">政策申请套数:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input23" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">已发起套数(含本套):</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input24" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">原因说明:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input25" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">分期天数:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input26" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">分期期数:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input27" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+              <el-row class="bd_w">
+
+              <el-col :span="24">
+                <el-row>
+                  <el-col :span="4" class="bd_n">分期金额明细:</el-col>
+                  <el-col :span="20" class="bd_n bd_r">
+                    <el-input v-model="input28" disabled ></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="5">
+          <template slot="title">
+            <h3 class="titleText">折扣明细</h3>
+          </template>
+          <div class="content">
+            <template>
+              <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="name"
+                  label="折扣项名称"
+                 >
+                </el-table-column>
+                <el-table-column
+                  prop="sort"
+                  label="折扣类型"
+                  >
+                </el-table-column>
+                <el-table-column
+                  prop="math"
+                  label="折扣算法">
+                </el-table-column>
+                  <el-table-column
+                  prop="rate"
+                  label="折扣（%）"
+                  >
+                </el-table-column>
+                  <el-table-column
+                  prop="yuan"
+                  label="优惠（元）"
+                 >
+                </el-table-column>
+              </el-table>
+            </template>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="6">
+          <template slot="title">
+            <h3 class="titleText">附件</h3>
+          </template>
+          <!-- <div class="content">
+            <div class="footer">
+              <h2>直系亲属更名必须上传直系亲属证明文件</h2>
+              <ul class="footer_list">
+                <li>更名原因的凭证</li>
+                <li>《解除协议（更名使用）》</li>
+                <li>直系亲属证明</li>
+              </ul>
+            </div>
+          </div>
+          <el-form>
+            <el-form-item label="附件">
+              <el-upload
+                class="upload-demo"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                multiple
+                :limit="3"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
+            </el-form-item>
+          </el-form> -->
+        </el-collapse-item>
+
+      </el-collapse>
+    </el-row>
+  </div>
+</template>
+
+<script>
+import processForm from "@/views/component/form.vue";
+import { sendJSONALLPATH } from "@/api/request";
+import { weekPlanSort } from "@/utils/methods";
+import { examineInfo } from "@/api/offerFlow";
+export default {
+  name: "offerInstallment",
+  components: {
+    processForm
+  },
+  data() {
+    return {
+      list: [
+        {
+          title: "基本信息",
+          type: "transverse",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input"
+            },
+            {
+              title: "事业部",
+              type: "select",
+              name: "select",
+              options: [
+                {
+                  label: "选项1",
+                  value: 1
+                },
+                {
+                  label: "选项2",
+                  value: "2"
+                }
+              ]
+            },
+            {
+              title: "radio",
+              type: "radio",
+              options: [
+                {
+                  label: "选项1",
+                  value: "1"
+                },
+                {
+                  label: "选项2",
+                  value: "2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          title: "基本信息2",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input2"
+            }
+          ]
+        },
+        {
+          title: "基本信息3",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input3"
+            }
+          ]
+        }
+      ],
+      values: {
+        input: 123,
+        select: 1,
+        input2: 12,
+        input3: 1,
+        radio: 2
+      },
+      formInfo:{},
+      activeNames: ["1", "2", "3", "4", "5"],
+      tableData:[
+        {
+          name:"",
+          sort:"",
+          math:"",
+          rate:"",
+          yuan:""
+       },
+      //   {
+      //     name:"name",
+      //     sort:"sort",
+      //     math:"math",
+      //     rate:"rate",
+      //     yuan:"yuan"
+      //  },
+      //   {
+      //     name:"name",
+      //     sort:"sort",
+      //     math:"math",
+      //     rate:"rate",
+      //     yuan:"yuan"
+      //  },
+      //   {
+      //     name:"name",
+      //     sort:"sort",
+      //     math:"math",
+      //     rate:"rate",
+      //     yuan:"yuan"
+      //  }
+      ],
+      value1: "",
+      input1: "",
+      input2: "",
+      input3: "",
+      input4: "",
+      input5: "",
+      input6: "",
+      input7: "",
+      input8: "",
+      input9: "",
+      input10: "",
+      input11: "",
+      input12: '',
+      input13: '',
+      input14: '',
+      input15: '',
+      input16: "",
+      input17: "",
+      input18: "",
+      input19: "",
+      input20:'',
+      input21:'',
+      input22: "",
+      input23: "",
+      input24: "",
+      input25:'',
+      input26:'',
+      input27:'',
+      input28:'',
+    };
+  },
+// <FieldItem CName="事业部" EName="BName"></FieldItem>
+// <FieldItem CName="公司GUID" EName="BGUID"></FieldItem>
+// <FieldItem CName="项目名称" EName="ProjectFullName"></FieldItem>
+// <FieldItem CName="发起人" EName="UserName"></FieldItem>
+// <FieldItem CName="发起日期" EName="ApplyDate"></FieldItem>
+// <FieldItem CName="退定类型" EName="AlterType"></FieldItem>
+// <FieldItem CName="客户姓名" EName="CstName"></FieldItem>
+// <FieldItem CName="房间" EName="RoomInfo"></FieldItem>
+// <FieldItem CName="认购面积(㎡)_N" EName="BldArea"></FieldItem>
+// <FieldItem CName="认购总价(元)_N" EName="CjRmbTotal"></FieldItem>
+// <FieldItem CName="认购单价(元/㎡)_N" EName="CjBldPrice"></FieldItem>
+// <FieldItem CName="是否申请折扣" EName="IsSetYgCjAmount"></FieldItem>
+// <FieldItem CName="折扣信息" EName="ZkInfo"></FieldItem>
+// <FieldItem CName="认购时间" EName="QSDate"></FieldItem>
+// <FieldItem CName="置业顾问" EName="Zygw"></FieldItem>
+// <FieldItem CName="项目GUID" EName="ProjGUID"></FieldItem>
+// <FieldItem CName="变更原因" EName="AlterReason"></FieldItem>
+// <FieldItem CName="实收定金_N" EName="GetAmount"></FieldItem>
+// <FieldItem CName="应收违约金_N" EName="HandCharge"></FieldItem>
+// <FieldItem CName="收取比例_N" EName="HandChargeRate"></FieldItem>
+// <FieldItem CName="变更说明" EName="Reason"></FieldItem>
+
+
+  methods: {
+    handleChange(val) {
+      console.log(val);
+    },
+    getInfo() {
+      examineInfo({
+        json_id: "177096da-1ffd-e911-80bb-005056a37afa"
+      }).then(res => {
+        console.log(JSON.parse(res.result[0].flow_json));
+        this.formInfo={
+          ...JSON.parse(res.result[0].flow_json)
+        }
+        this.input1=this.formInfo.BName
+        this.input2=this.formInfo.ProjectFullName
+        this.input3=this.formInfo.UserName
+        this.input4=this.formInfo.ApplyDate
+        this.input5=this.formInfo.IsPd
+        this.input6=this.formInfo.CstName
+        this.input7=this.formInfo.Zygw
+        this.input8=this.formInfo.RoomInfo
+        this.input9=this.formInfo.QSDate
+        this.input10=this.formInfo.BldArea
+        this.input11=''
+        this.input12=''
+        this.input13=this.formInfo.Zkds
+        this.input14=this.formInfo.ZkInfo
+        this.input15=''
+        this.input16=this.formInfo.YqyDate
+        this.input17=this.formInfo.Yjyhfd
+        this.input18=this.formInfo.SumFkAmount
+        this.input19=this.formInfo.YgCjAmount
+        this.input20=this.formInfo.FkType
+        this.input21=this.formInfo.AlterType
+        this.input22=this.formInfo.x_IsApplyPolicy
+        this.input23=" "
+        this.input24=" "
+        this.input25=this.formInfo.Reason
+        this.input26=this.formInfo.FqNum
+        this.input27=this.formInfo.DtlCount
+        this.input28=this.formInfo.PublicYgCjAmount
+
+      });
+    }
+  },
+  created() {
+    this.getInfo();
+    /*
+      //加载周计划程序已加载至2028年如果需要重新初始化打开注释重新发送，发送结束后请注释掉一下的代码
+      let sendList=[];
+      for(let i=2018;i<=2028;i++){
+        for(let j=1;j<=12;j++){
+          sendList.push(...weekPlanSort(`${i}-${j}-01`,true));
+        }
+      }
+      sendJSONAllPath('http://192.168.34.66:8001/weekRule/getCommonWeekRule',{_param:sendList}); */
+  },
+  mounted(){
+    // console.log(document.querySelectorAll("input"));
+    // document.querySelectorAll("input").forEach(item=>{
+    //   item.readonly=true
+    //   item.disabled=true
+    //   item.onfocus=item.blur()
+    // })
+  }
+};
+</script>
+<style lang="less" scoped>
+.el-col-8 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
+<style lang='less'>
+.offerInstallment {
+  .content {
+    padding: 0 20px;
+  }
+
+  .titleText {
+    border-left: 3px solid #2661ff;
+    height: 20px;
+    line-height: 20px;
+    text-indent: 1em;
+    font-size: 16px;
+  }
+  .container
+  .el-collapse
+  input.el-input__inner {
+    font-size: 12px;
+    color: #333;
+    background-color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    // background-color: red;
+    border: none;
+  }
+
+  input::placeholder {
+    font-size: 12px;
+    color: #333;
+  }
+
+  .bd_w {
+    border-top: 1px solid #ccc;
+
+    .bd_n {
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 12px;
+
+      &:first-child {
+        border-right: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        text-align: right;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .bd_r {
+      border-right: 1px solid #ccc;
+    }
+  }
+
+  .more {
+    padding: 0 20px;
+
+    .bd_left {
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-left: 1px solid #ccc;
+    }
+
+    .bd_bottom {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+  .cell{
+    text-align: center;
+  }
+  .footer {
+    h2 {
+      padding-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .footer_list {
+      list-style: none;
+
+      li {
+        height: 30px;
+        line-height: 30px;
+        color: #2761ff;
+        list-style: none;
+        cursor: pointer;
+      }
+    }
+
+  }
+}
+</style>

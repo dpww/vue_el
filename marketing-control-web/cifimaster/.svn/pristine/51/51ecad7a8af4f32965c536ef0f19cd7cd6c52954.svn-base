@@ -1,0 +1,105 @@
+import router from './router'
+import store from './store'
+import {
+  Message
+} from 'element-ui'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+import {
+  getToken
+} from '@/utils/auth' // get token from cookie
+import getPageTitle from '@/utils/get-page-title'
+import Layout from "@/layout";
+import {
+  initMenu
+} from '@/utils/util'
+import {
+  parseTime
+} from '@/utils/index'
+
+NProgress.configure({
+  showSpinner: false
+}) // NProgress Configuration
+//审批列表
+const approvalList=['/periodizationInfo','/discountInfo'];
+const whiteList = ['/login',...approvalList]; // no redirect whitelist
+let is_refresh = false;
+let _routerHistory = window.localStorage.getItem('routerHistory');
+let routerHistory = _routerHistory ? JSON.parse(_routerHistory) : [];
+let timeHistory = window.localStorage.getItem('timeHistory');
+let _today = parseTime(new Date(), '{y}-{m}-{d}');
+
+router.beforeEach(async (to, from, next) => {
+  /* 设置权限*/
+  to.name&&store.dispatch('user/setPower',to.name);
+  console.log(store.state.user.userPower);
+  if (_today == timeHistory) {
+    if (routerHistory.indexOf(to.path) == -1) {
+      _paq.push(['trackPageView', to.path]);
+      routerHistory.push(to.path);
+      window.localStorage.setItem('routerHistory', JSON.stringify(routerHistory));
+    }
+  } else {
+    window.localStorage.setItem('timeHistory', _today);
+    window.localStorage.setItem('routerHistory', JSON.stringify([]));
+  }
+  // start progress bar
+  NProgress.start();
+  const hasToken = localStorage.getItem("token")
+  const hasUserInfo = localStorage.getItem("userInfo")
+  // const code = localStorage.getItem("code")
+  // if(code=="undefined" || code==null){
+  /* 先查看路由有没有再白名单内*/
+  if (whiteList.indexOf(to.path) !== -1) {
+    next();
+    if(approvalList.indexOf(to.path)!=-1){
+      let isTest=['salesmgt-uat',"salesmgt-test"].some(item=>window.location.href.indexOf(item)!==-1);
+      console.log("isTest",isTest);
+      var d = document,
+        g = d.createElement('script');
+      g.type = 'text/javascript';
+      g.async = true;
+      g.defer = true;
+      g.src = isTest?'https://oa.cifi-dev.com.cn/front/oa.helper.js':'https://oa.cifi.com.cn/front/oa.helper.js';
+      document.querySelector('body').appendChild(g);
+    }
+    NProgress.done();
+    return;
+  }
+  if (hasToken && hasUserInfo) {
+    if (whiteList.indexOf(to.path) !== -1) {
+      next({
+        path: '/'
+      })
+      NProgress.done()
+    } else {
+      if (!store.getters.menu && !is_refresh) {
+        // 无路径
+        is_refresh = true;
+        store.dispatch('user/setInfo', JSON.parse(hasUserInfo)).then(data => {
+          initMenu(router, data)
+          next({
+            ...to,
+            replace: true
+          })
+        });
+      } else {
+        next()
+      }
+      NProgress.done()
+    }
+  } else {
+    if (whiteList.indexOf(to.path) !== -1 || (to.path == '/dashboard' && to.query.code)) {
+      next();
+    } else {
+      //next('/login')
+      window.location.href = process.env.VUE_APP_LOGIN_URL;
+      //window.location.href = "https://sso.cifi.com.cn/siam/oauth2.0/authorize?client_id=AUTH_SCRM&redirect_uri=https%3A%2F%2Fscrm.cifi.com.cn%2F%23%2Fdashboard&response_type=code";
+    }
+  }
+})
+router.afterEach(() => {
+  // finish progress bar
+  store.dispatch('app/closeLoadings');
+  NProgress.done()
+})

@@ -1,0 +1,312 @@
+<template>
+  <div class="form-container">
+    <el-row class="container">
+      <div class="title">
+        <h2>{{title}}</h2>
+      </div>
+    </el-row>
+    <el-row class="form-list">
+      <el-form :label-width="labelwidth||'180px'" label-position="right">
+        <!-- 主表内容-->
+        <el-collapse :value="list.map((item,index)=>index)">
+          <!-- 每个表单块-->
+          <el-collapse-item class="form_item" v-for="(item,index) in list" :title="item.title" :name="index" :key="index">
+            <template slot="title">
+              <i v-if="item.icon" class="header-icon" :class="item.icon"></i>
+              <h3 class="form_item_title">{{item.title}} <small v-if="item.titleInfo">{{item.titleInfo}}</small></h3>
+            </template>
+            <template v-for="(render,eIndex) in item.formList">
+              <h4 class="subtitle" v-if= "item.subtitle&&item.subtitle[eIndex]">
+                <i class="el-input__icon" v-if= "item.subtitleIcon&&item.subtitleIcon[eIndex]" :class="item.subtitleIcon[eIndex]" :style="item.subtitleStyle&&item.subtitleStyle[eIndex]"></i>
+                <span>{{item.subtitle[eIndex]}}</span>
+              </h4>
+              <!-- 横版 -->
+              <el-row v-if="render[0][0]">
+                <!-- 每个表单元素 -->
+                  <el-row  v-for="(render_item,renderIndex) in render" :key="renderIndex">
+                    <el-col v-for="(form_item,formIndex) in render_item" :span="24/(form_item.numbers||2)" :key="formIndex">
+                      <el-form-item :label="form_item.label+'：'" :label-width="form_item.labelWidth">
+                        <y-input :values="values" :form_item="form_item" :params="{detail:form_item,value:values}" :label-width="form_item.labelWidth"></y-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+              </el-row>
+              <!-- 竖向-->
+              <el-row v-else-if="render[0].mode==='vertical'">
+                <el-col>
+                  <!-- 按钮组-->
+                  <template v-if="!readonly">
+                    <el-row class="btns"  v-if= "item.btns&&item.btns.length>0" >
+                      <template v-if= "item.btns[eIndex]&&item.btns[eIndex].length>0">
+                        <el-button type="primary"
+                        v-for="(btn,btnIndex) in item.btns[eIndex]"
+                        @click="tableBtnHandle(btn.callback,render,item,item.dataName&&values[item.dataName[eIndex]])"
+                        class="xuHuiBtn" :class="item.classes?item.classes:'secondary'"
+                        :key="btnIndex">{{btn.name}}
+                        </el-button>
+                      </template>
+                    </el-row>
+                  </template>
+                  <el-table :show-summary="item.showSummary&&Boolean(item.showSummary[eIndex])" border :summary-method="item.showSummary&&item.showSummary[eIndex]" :data="item.dataName&&values[item.dataName[eIndex]]" style="width: 100%">
+                    <el-table-column v-if="item.hasIndex||(item.hasIndex&&item.hasIndex[eIndex])" label="序号" width="50" align="center">
+                      <template slot-scope="scope">
+                        <span>{{scope.$index+1}}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column-child v-for="(renderItem,rIndex) in render" :theadItem="renderItem" :key="rIndex"></el-table-column-child>
+                  </el-table>
+                </el-col>
+              </el-row>
+              <!-- 外部组件-->
+              <el-row v-else-if="render[0].mode==='custom'">
+                <el-col v-for="(custom,customIndex) in render" :key="customIndex" :span="24/(custom.numbers||1)">
+                  <component :is="custom.component" :value="values" :readonly="readonly"></component>
+                </el-col>
+              </el-row>
+            </template>
+          </el-collapse-item>
+        </el-collapse>
+        <el-col class="btns text-center" v-if="btns.length">
+          <el-button v-for="(btn,btnKey) in btns" :key="btnKey" type="primary" @click="formBtnHandle(btn.callback)" class="xuHuiBtn" :class="btn.classes?btn.classes:(btnKey?'secondary':'main')">{{btn.name}}</el-button>
+        </el-col>
+      </el-form>
+    </el-row>
+  </div>
+</template>
+<script>
+  import yInput from "./input.vue";
+  import elTableColumnChild from "./elTableColumnChild.vue";
+  import components from './comp.config.js';
+  export default {
+    name: "processForm",
+    watch:{
+      value:{
+        handler(newv){
+          this.getValue(newv);
+        },
+        deep:true
+      },
+      formlist:{
+        handler(newv){
+          this.renders(newv);
+        },
+        deep:true
+      }
+    },
+    methods: {
+      uploadSuccess(res) {
+        this.$message.success("上传成功");
+      },
+      uploadError() {
+        this.$message.error("上传失败");
+      },
+      /* table外的点击事件 */
+      tableBtnHandle(callback,render,item,value) {
+        let keys={};
+        render.forEach(item=>{
+          keys[item.name]='';
+        });
+        callback.bind(this)(keys,value,item);
+      },
+      /* form表单的点击事件 */
+      formBtnHandle(callback){
+        if(callback){
+          callback.bind(this)(this.values,this.list);
+        }
+
+      },
+      /* 获取value值*/
+      getValue(value){
+         /* 判断prop value 的长度是否大于0 如果小于0则根据list的name渲染*/
+        if (Object.keys(value).length) {
+          this.values = value;
+        } else {
+          let keys = {};
+          this.list.forEach(formItem => {
+            formItem.formList.forEach(inputItem => {
+              if (!inputItem.name) throw Error(`${inputItem.title}缺少关键字name`);
+              keys[inputItem.name] = '';
+            })
+          })
+          this.values = keys;
+        }
+      },
+      renders(formlist){
+
+        this.getValue(this.value);
+        /*将组件值formlist转换为list*/
+        let listClone = [];
+        formlist.forEach(item => { //每个表单区域选项
+          let cloneItem = {};
+          Object.keys(item).forEach(key=>{
+            cloneItem[key]=item[key];
+          });
+          /* 如果dataName为string*/
+          if(typeof cloneItem.dataName ==='string'){
+            cloneItem.dataName=[cloneItem.dataName];
+          }
+          cloneItem.formList=[];
+
+          let level = [...new Set(item.inputList.map(inp => {
+            inp.level = inp.level || 0;
+            return inp.level.toString();
+          }))].sort((x, y) => x - y); //获取分级的数组,默认为0
+
+          //为每个等级创建数组
+          level.forEach(() => {
+            cloneItem.formList.push([])
+          });
+
+          let num=0,prevIndex;
+          item.inputList.forEach(formItem => { //每个输入框选项
+            let cloneFormItem = {};
+            Object.keys(formItem).forEach(key => {
+              cloneFormItem[key] = formItem[key];
+            });
+            cloneFormItem.mode = formItem.mode || item.mode; //排列方式不存在时继承父级的排列方式
+            cloneFormItem.numbers = formItem.numbers || item.numbers; //每行个数
+            cloneFormItem.labelWidth = formItem.labelWidth || this.labelwidth; //每行宽度
+            /* 由于长textarea加了中文冒号,并且有padding所以让longTextarea的宽度为字数加二个em*/
+            if(cloneFormItem.type==='longTextarea')cloneFormItem.labelWidth=cloneFormItem.label.length+2+'em';
+            //当整个表为只读时
+            cloneFormItem.type=this.readonly?(formItem.type!='upFile'?'info':'fileList'):formItem.type;
+
+            /*根据input等级进行渲染顺序排序*/
+            formItem.level=formItem.level.toString();
+
+            if (level.indexOf(formItem.level) != -1) {
+              let index = level.indexOf(formItem.level);//获取当前等级的位置
+              if(cloneFormItem.mode==='transverse'){
+                if((!prevIndex&&prevIndex!=0)||prevIndex!=index){
+                  num=0;
+                  prevIndex=index;
+                }
+                //cloneItem.formList[index].push(cloneFormItem);
+                if(num==0||num+24/cloneItem.numbers>24){//当num为0或num+当前条目大于24时新增一条数据
+                  cloneItem.formList[index].push([]);
+                  num=0;
+                }
+                num+=24/cloneFormItem.numbers;
+                let i=cloneItem.formList[index].length-1;
+                cloneItem.formList[index][i].push(cloneFormItem);
+              }else{
+                cloneItem.formList[index].push(cloneFormItem);
+              }
+            }
+
+          })
+          listClone.push(cloneItem);
+        })
+        this.list = listClone;
+      }
+    },
+    components:{
+      yInput,
+      elTableColumnChild,
+      ...components
+    },
+    props: {
+      formlist: {
+        type: Array,
+        default:()=> []
+      },
+      title: {
+        type: String,
+        default: '表单信息'
+      },
+      value: {
+        type: Object,
+        default:()=> {}
+      },
+      labelwidth: {
+        type: String,
+        default: '180px'
+      },
+      btns:{
+        type:Array,
+        default:()=>[]
+      },
+      readonly:{
+        type:Boolean,
+        default:false
+      }
+    },
+    created() {
+      this.renders(this.formlist);
+    },
+    data() {
+      return {
+        values: {},
+        list: []
+      }
+    },
+    mounted(){
+
+    }
+  }
+</script>
+<style lang="scss">
+  @import "@/styles/form.scss";
+  $marginTop:10px;
+  .form-container {
+    padding: 10px;
+
+    .el-input {
+      width: auto;
+    }
+    .title {
+      margin: 10px 0;
+
+      h2 {
+        text-align: center;
+        font-size: 20px;
+      }
+    }
+    .subtitle{
+      margin-top: $marginTop;
+    }
+     .btns{
+       margin-top: $marginTop;
+     }
+     .el-table{
+       margin-top: 10px;
+     }
+     .text-center{
+       text-align: center;
+     }
+    .el-collapse-item__header.is-active {
+      border-bottom-color: #EBEEF5;
+    }
+    .el-form-item {
+      margin: 10px 0;
+    }
+    .form_item {
+      padding: 20px;
+      background-color: #fff;
+      margin-top: $marginTop;
+      padding-top: 0;
+      box-shadow: 0 0 2px #ccc;
+      &:first-child {
+        margin-top: 0;
+      }
+      .form_item_title {
+        border-left: 3px solid #2661FF;
+        height: 20px;
+        line-height: 20px;
+        text-indent: 1em;
+        font-size: 16px;
+      }
+    }
+    .el-form-item__content {
+      margin: 0 auto;
+    }
+
+    .el-collapse {
+      border-top: none;
+      border-bottom: none;
+    }
+    .el-table th{
+      background-color: #F5F7FA;
+    }
+  }
+</style>

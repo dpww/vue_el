@@ -1,0 +1,254 @@
+<template>
+  <process-form title="【销售变更-签约后换房】旭辉绿地旭辉城全期（杭州）-绿地旭辉大厦-1612换房申请" :formlist="list" :value="value" labelwidth="210px" :readonly="true"></process-form>
+</template>
+<script>
+import processForm from "@/views/component/formV2.vue";
+export default {
+  name:"signingRearRoomChange",
+  components: {
+    processForm
+  },
+  data() {
+    return {
+      value: {
+        applicantName: '绿地旭辉城(杭州)-绿地旭辉城全期(杭州)【A201.00】',
+        projectName: '浙江事业部',
+        departmentName: '系统管理员',
+        applicantTime: '2019-09-09',
+        room: '旭辉绿地旭辉城全期(杭州)-绿地旭辉大厦-1612',
+        client: '魏国娟',
+        termsOfPayment: '一次性',
+        signingTime: '2019-08-07',
+        signingSum: '1,671,693.00',
+        accountSum: '1,671,693.00',
+        discount: '97.00%',
+        discountExplain: '按时签约打折；一次性打折；项目营销总监99打折；公寓营销总监优惠总价优惠10,000.00；公寓总经理优惠总价优惠2,405.00',
+        controlGist: '新房间的单价、面积、总价均小于原房间时，预警红灯。',
+        discountExplain: '',
+        oldRoomInfo: '',
+        newRoomInfo: '',
+        differenceValue: '',
+        roomChangeType: '低总价换高总价',
+        changeRoomsBecause: '其他原因',
+        causeExplain: '客户要求换房',
+        roomChangeList: [
+          {roomChangeNull: '房间',oldRoomInfo: '旭辉绿地旭辉城全期（杭州）-绿地旭辉大厦-1612',newRoomInfo: '旭辉绿地旭辉城全期（杭州）-绿地旭辉大厦-2011',differenceValue: ''},
+          {roomChangeNull: '业态',oldRoomInfo: '高层',newRoomInfo: '高层',differenceValue: ''},
+          {roomChangeNull: '建筑面积(㎡)',oldRoomInfo: '59.97',newRoomInfo: '71.16',differenceValue: '11.19'},
+        ],
+        paymentList: [
+          {fundType: '非贷款类房款',fundName: '房款',paymentMoney: '209,817.00',paymentDate: '2019-09-15',}
+        ],
+        dataList:[
+          {index:'建筑单价(元/㎡)',originalPriceInfo: '套内单价(元/㎡)',newPriceInfo: '',priceSpread: ''},
+          {index:'套内单价(元/㎡)',originalPriceInfo: '标准总价(元)',newPriceInfo: '',priceSpread: ''},
+          {index:'标准总价(元)',originalPriceInfo: '59.97',newPriceInfo: '',priceSpread: ''},
+
+        ],
+
+      },
+      list: [{
+        title: '基本信息',
+        mode: 'transverse',
+        numbers: 3,
+        inputList: [{
+            label: '项目名称',
+            type: 'date',
+            name: 'applicantName',
+            numbers: 1,
+          },
+          {
+            label: '事业部',
+            type: 'date',
+            name: 'projectName'
+          },
+          {
+            label: '发起人',
+            type: 'date',
+            name: 'departmentName'
+          },
+          {
+            label: '发起日期',
+            type: 'date',
+            name: 'applicantTime'
+          }
+        ]
+      },
+      {
+        title: '原房间签约信息',
+        mode: 'transverse',
+        numbers: 3,
+        inputList: [{
+          label: '房间',
+          type: 'date',
+          name: 'room'
+        },
+        {
+          label: '客户',
+          type: 'date',
+          name: 'client'
+        },
+        {
+          label: '付款方式',
+          type: 'date',
+          name: 'termsOfPayment'
+        },
+        {
+          label: '签约时间',
+          type: 'date',
+          name: 'signingTime'
+        },
+        {
+          label: '签约金额',
+          type: 'date',
+          name: 'signingSum'
+        },
+        {
+          label: '已到账金额',
+          type: 'date',
+          name: 'accountSum'
+        },
+        {
+          label: '折扣',
+          type: 'date',
+          name: 'discount',
+          numbers: 1,
+        },
+         {
+          label: '折扣说明',
+          type: 'date',
+          name: 'discountExplain',
+          numbers: 1,
+        }],
+      },
+      {
+        title: '换房信息',
+        mode: 'vertical',
+        dataName: ['roomChangeList'],
+        subtitle: ['管控要点: 新房间的单价、面积、总价均小于原房间时预警红灯'],
+        inputList: [{
+          label: '指标',
+          type: 'date',
+          name: 'roomChangeNull',
+        },
+        {
+          label: '原房间信息',
+          type: 'date',
+          name: 'oldRoomInfo',
+        },
+        {
+          label: '新房间信息',
+          type: 'date',
+          name: 'newRoomInfo',
+        },
+        {
+          label: '差值(新房间-原房间)',
+          type: 'date',
+          name: 'differenceValue',
+        },
+        ]
+      },
+      {
+        title: '换房原因',
+        mode: 'transverse',
+        numbers: 3,
+        inputList: [{
+          label: '换房类型',
+          type: 'date',
+          name: 'roomChangeType'
+        },
+        {
+          label: '换房原因',
+          type: 'date',
+          name: 'changeRoomsBecause'
+        },
+        {
+          label: '原因说明',
+          type: 'date',
+          name: 'causeExplain'
+        },
+        ]
+      },
+      {
+        title: '付款方案',
+        mode: 'vertical',
+        numbers: 3,
+        dataName: ['paymentList'],
+        inputList: [{
+          label: '款项类型',
+          type: 'date',
+          name: 'fundType'
+        },
+        {
+          label: '款项名称',
+          type: 'date',
+          name: 'fundName'
+        },
+        {
+          label: '付款金额',
+          type: 'date',
+          name: 'paymentMoney'
+        },
+        {
+          label: '付款日期',
+          type: 'date',
+          name: 'paymentDate'
+        },
+        ]
+      },
+      {
+        title: '房间重新定价',
+        mode: 'vertical',
+        numbers: 4,
+        dataName:["dataList"],
+        inputList: [{
+          label: '',
+          type: 'date',
+          name: 'index'
+        },
+        {
+          label: '原价格信息',
+          type: 'date',
+          name: 'originalPriceInfo'
+        },
+        {
+          label: '新价格信息',
+          type: 'date',
+          name: 'newPriceInfo'
+        },
+        {
+          label: '差价(新价格-原价格)',
+          type: 'date',
+          name: 'priceSpread'
+        },
+        ]
+      },
+      {
+        title: '附件',
+        mode: 'transverse',
+        numbers: 1,
+        inputList: [{
+          label: '附件列表',
+          type: 'upFile',
+          name: 'index',
+          labelWidth: '8em',
+          width:'100%',
+          fileList: [{
+            name: '更名原因凭证'
+          },{
+            name: '解除协议'
+          }]
+        }]
+      }
+      ]
+    }
+  },
+  methods: {
+
+  }
+}
+</script>
+
+<style lang='less' scoped>
+
+</style>

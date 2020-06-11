@@ -1,0 +1,237 @@
+<template>
+<process-form title="【销售变更-签约后更名】旭辉绿地旭辉城全期（杭州）-绿地旭辉大厦-1907更名申请" :formlist="list" :value="value" labelwidth="210px" :readonly="true"></process-form>
+</template>
+<script>
+import processForm from "@/views/component/formV2.vue";
+export default {
+  name:"signingRearRenamed",
+  components: {
+    processForm
+  },
+  data(){
+    return {
+      value: {
+        businessDivision: '浙江事业部',
+        projectName: '吴越府项目一期（浙江）',
+        departmentName: '系统管理员',
+        applicantTime: '2019-09-09',
+        clientName: '甄有仟',
+        propertyConsultant: '王斌',
+        termsOfPayment: '按揭付款',
+        signingTime: '2019-08-07',
+        coveredArea: '162.06',
+        insideSpace: '151.18',
+        architecturePrice: '23.684.05',
+        standardPrice: '3,838,237.00',
+        signingSum: '1,671,693.00',
+        accountSum: '1,671,693.00',
+        visitingChannels: '阵地包装',
+        sentBrokerage: 7600.00,
+        discount: '97.00%',
+        discountInfo: '标准总价-总价优惠38237.00',
+        updateInfoList: [
+          {theName: '张亚丽', contact: '13699876756', idCard: '411578198709099878'},
+          {theName: '王子贤', contact: '13699876756', idCard: '411578198709099878'},
+        ],
+        clientInfo: [
+          {theName1: '张亚丽', contact1: '13699876756', idCard1: '411578198709099878'},
+          {theName1: '王子贤', contact1: '13699876756', idCard1: '411578198709099878'},
+        ],
+        renamedType: '直系亲属更名',
+        changeWhy: '更名-社会客户-直系亲属',
+        renamedFee: '0.00元',
+        whyInstructions: '各位领导：好！现有客户张亚丽、王子贤于2018年5月31日认购三江观邸1-305室，应于2018年6月21日前网签，现因客户王子贤无法打出购房证明，特申请签约前把原购房人张亚丽、王子贤减名为张亚丽，为直系亲属关系，为了不影响本月回款指标，还望各位领导审批。',
+      },
+      list: [
+        {
+        title: '基本信息',
+        mode: 'transverse',
+        numbers: 2,
+        inputList: [
+         {
+            label: '事业部',
+            type: 'date',
+            name: 'businessDivision'
+          },
+          {
+            label: '项目名称',
+            type: 'date',
+            name: 'projectName'
+          },
+          {
+            label: '发起人',
+            type: 'date',
+            name: 'departmentName'
+          },
+          {
+            label: '发起日期',
+            type: 'date',
+            name: 'applicantTime'
+          }
+        ]
+       },
+       {
+        title: '签约信息',
+        mode: 'transverse',
+        numbers: 3,
+        inputList: [
+        {
+          label: '客户姓名',
+          type: 'date',
+          name: 'clientName'
+        },
+        {
+          label: '置业顾问',
+          type: 'date',
+          name: 'propertyConsultant'
+        },
+        {
+          label: '房间',
+          type: 'date',
+          name: 'room'
+        },
+        {
+          label: '签约日期',
+          type: 'date',
+          name: 'signingTime'
+        },
+        {
+          label: '建筑面积',
+          type: 'date',
+          name: 'coveredArea'
+        },
+        {
+          label: '套内面积',
+          type: 'date',
+          name: 'insideSpace'
+        },
+        {
+          label: '建筑单价',
+          type: 'date',
+          name: 'architecturePrice'
+        },
+        {
+          label: '标准总价',
+          type: 'date',
+          name: 'standardPrice'
+        },
+        {
+          label: '付款方式',
+          type: 'date',
+          name: 'termsOfPayment'
+        },
+        {
+          label: '折扣',
+          type: 'date',
+          name: 'discount',
+        },
+        {
+          label: '折扣说明',
+          type: 'date',
+          name: 'discountInfo',
+        },
+        {
+          label: '签约总价',
+          type: 'date',
+          name: 'signingSum'
+        },
+        {
+          label: '已到账金额',
+          type: 'date',
+          name: 'accountSum'
+        }],
+       },
+       {
+        title: '更新信息',
+        mode: 'vertical',
+        numbers: 3,
+        subtitle:['更名前客户信息','更名后客户信息'],
+        dataName: ['updateInfoList','clientInfo'],
+        inputList: [
+          {
+            label: '姓名',
+            type: 'date',
+            name: 'theName'
+          },
+          {
+            label: '联系方式',
+            type: 'date',
+            name: 'contact'
+          },
+          {
+            label: '身份证',
+            type: 'date',
+            name: 'idCard'
+          },
+          {
+            label: '姓名',
+            type: "input",
+            name: "theName1",
+            level: 2
+          },
+          {
+            label: '联系方式',
+            type: "input",
+            name: "contact1",
+            level: 2
+          },
+          {
+            label: '身份证',
+            type: "date",
+            name: "idCard1",
+            level: 2
+          }
+        ]
+       },
+       {
+        title: '更名原因',
+        mode: 'transverse',
+        numbers: 3,
+        inputList: [
+          {
+            label: '更名类型',
+            type: 'date',
+            name: 'renamedType'
+          },
+          {
+            label: '变更原因',
+            type: 'date',
+            name: 'changeWhy'
+          },
+          {
+            label: '更名费',
+            type: 'date',
+            name: 'renamedFee'
+          },
+          {
+            label: '原因说明',
+            type: 'date',
+            name: 'whyInstructions',
+            numbers: 1,
+          },
+        ]
+       },
+       {
+        title: '附件',
+        mode: 'transverse',
+        numbers: 1,
+        inputList: [{
+          label: '附件列表',
+          type: 'upFile',
+          name: 'index',
+          labelWidth:'8em',
+          width:"100%",
+          fileList:[{
+            name:"更名原因凭证"
+          },{
+            name:"《解除协议（更名适用）》"
+          },{
+            name: '直系亲属证明',
+          }]
+        }]
+       }
+      ]
+    }
+  }
+}
+</script>

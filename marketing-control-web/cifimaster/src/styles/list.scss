@@ -1,0 +1,10 @@
+@import "@/assets/css/style.scss";
+@import "@/styles/form.scss";
+div.cell{
+  &>a{
+    color: $listLinkFontColor;
+  }
+}
+.el-button--text{
+  color: $listLinkFontColor;
+}

@@ -1,0 +1,553 @@
+<template>
+  <process-form title="定调价" :formlist="list" :value.sync="value" :btns="btns"></process-form>
+</template>
+<script>
+  import processForm from "@/views/component/formV2.vue";
+  import {sendJSON} from "@/api/request.js";
+  export default {
+    components: {
+      processForm
+    },
+    created(){
+      sendJSON('/pricing/getApplyData',{
+        "BSID":"My_Sales",
+        "BTID":"My_Sales_PayFormChange",
+        "BOID":"2f84a15a-c2fa-e911-80bb-005056a37a7a",
+        "UserID":"yangyz01",
+        "LoginKey":"78de2530d0bb5d75483ca15da921a5d9"
+      }).then(res=>{
+        let myData=JSON.parse(res.result.data.myData);
+        this.value={...myData,...res.result.data.baseData};
+      })
+    },
+    data() {
+      return {
+        value: {},
+        btns:[
+          {name:"test",callback(v,l){
+            console.log(v);
+          }},
+        ],
+        list: [{
+          title: "基础信息",
+          mode: 'transverse',
+          numbers: 3,
+          inputList:[{
+              label: '项目名称',
+              type: "input",
+              name: "ProjName",
+              numbers: 1
+            },
+            {
+              label: '申请人',
+              type: "input",
+              name: "projectName"
+            },
+            {
+              label: '申请人部门',
+              type: "input",
+              name: "departmentName"
+            },
+            {
+              label: '申请日期',
+              type: "date",
+              name: "applicantTime"
+            }
+          ]
+        },{
+          title: "审批信息",
+          mode: 'vertical',
+          subtitle: ["一、经营对标",false, "二、价格对比",false,false,false ,"三、项目情况", "四、当前销售简述", "五、价格策略简述", "六、经营测算","七、折扣方案",false,"八、付款方式","九、一房一价表"],
+          dataName:['businessBenchmarking'],
+          inputList: [
+            {
+              mode:'custom',
+              component:'management',
+              level:0
+            },
+            {
+              label: '结论',
+              type: "longTextarea",
+              name: "conclusion",
+              numbers: 1,
+              level: 1,
+              mode: "transverse",
+              labelWidth:'6em',
+              placeholder:"偏差大需说明理由，同时说明清楚利润率计算口径"
+            },
+            {
+              label:'价格版本类型',
+              type:"select",
+              options:[{label:'首开定价',value:1},{label:'非首开定价',value:2}],
+              name:'priceType',
+              level:1.1,
+              mode: "transverse",
+            },
+            {
+              label: '价格版本1',
+              type: "input",
+              name: "applicantName",
+              level: 2,
+              child:[
+                {
+                  label: '价格版本',
+                  type: "input",
+                  name: "applicantName",
+                  level: 2
+                },
+                {
+                  label: '价格A（元/㎡）',
+                  type: "input",
+                  name: "applicantDepartment",
+                  level: 2
+                },
+                {
+                  label: '目标流量C',
+                  type: "date",
+                  name: "applyTime",
+                  level: 2
+                }]
+            },
+
+            {
+              label: '对标版本',
+              type: "input",
+              name: "applicantDepartment",
+              level: 2,
+              child:[
+                {
+                  label: '对标版本（元/㎡）',
+                  type: "input",
+                  name: "applicantDepartment",
+                  level: 2
+                },
+                {
+                  label: '价格A（元/㎡）',
+                  type: "input",
+                  name: "applyTime",
+                  level: 2
+                },
+                {
+                  label: '月度流量E',
+                  type: "input",
+                  name: "applyTime",
+                  level: 2
+                }
+              ]
+            },
+            {
+              label: '差异值',
+              type: "input",
+              name: "applyTime",
+              level: 2,
+              child:[{
+                label: '价格浮动D=A-B(元/㎡)',
+                type: "input",
+                name: "applyTime",
+                level: 2
+              },
+              {
+                label: '流量差异F=C-E',
+                type: "input",
+                name: "applyTime",
+                level: 2
+              }]
+            },
+            {
+              label:"结论",
+              type:"longTextarea",
+              name:'conclusion',
+              mode:'transverse',
+              level:2.1,
+              numbers:1
+            },
+            {
+              label: '价格版本2',
+              type: "input",
+              name: "applicantName",
+              level: 2.2,
+              child:[
+                {
+                  label: '价格版本',
+                  type: "input",
+                  name: "applicantName",
+                },
+                {
+                  label: '价格A（元/㎡）',
+                  type: "input",
+                  name: "applicantDepartment",
+                },
+                {
+                  label: '目标流量C',
+                  type: "date",
+                  name: "applyTime",
+                }]
+            },
+            {
+              label: '对标版本',
+              type: "input",
+              name: "applicantDepartment",
+              level: 2.2,
+              child:[
+                {
+                  label: '对标版本（元/㎡）',
+                  type: "input",
+                  name: "applicantDepartment",
+                },
+                {
+                  label: '价格A（元/㎡）',
+                  type: "input",
+                  name: "applyTime",
+                },
+                {
+                  label: '月度流量E',
+                  type: "input",
+                  name: "applyTime",
+                }
+              ]
+            },
+            {
+              label: '差异值',
+              type: "input",
+              name: "applyTime",
+              level: 2.2,
+              child:[{
+                label: '价格浮动D=A-B(元/㎡)',
+                type: "input",
+                name: "applyTime",
+              },
+              {
+                label: '流量差异F=C-E',
+                type: "input",
+                name: "applyTime",
+              }]
+            },
+            {
+              label:"结论",
+              type:"longTextarea",
+              name:'conclusion',
+              mode:'transverse',
+              level:2.3,
+              numbers:1
+            },
+            {
+              mode:'custom',
+              component:'projectStatus',
+              level:3
+            },
+            {
+              label: '1、项目当前面临情况',
+              type: "longTextarea",
+              name: "applyTime",
+              mode:'transverse',
+              level:4,
+              numbers:1,
+              labelWidth:"10em"
+            },{
+              label: '2、风险评估',
+              mode:'transverse',
+              type: "longTextarea",
+              name: "applyTime",
+              level:4,
+              numbers:1
+            },{
+              label: '3、其他',
+              type: "longTextarea",
+              mode:'transverse',
+              name: "applyTime",
+              level:4,
+              numbers:1
+            },
+             //level5
+            {
+              label: '1、定调价标的及去化情况简述',
+              type: "longTextarea",
+              name: "applyTime",
+              mode:'transverse',
+              level:5,
+              numbers:1,
+            },{
+              label: '2、定调价营销折扣释放口径',
+              mode:'transverse',
+              type: "longTextarea",
+              name: "applyTime",
+              level:5,
+              numbers:1,
+            },
+            {
+              label: '3、定调价策略简述',
+              type: "longTextarea",
+              mode:'transverse',
+              name: "applyTime",
+              level:5,
+              numbers:1,
+            },{
+              label: '4、流量保障策略简述',
+              mode:'transverse',
+              type: "longTextarea",
+              name: "applyTime",
+              level:5,
+              numbers:1,
+            },{
+              label: '5、其他',
+              type: "longTextarea",
+              mode:'transverse',
+              name: "applyTime",
+              level:5,
+              numbers:1,
+            },
+            //level6
+            {
+              label: '按当批次定价拉通全盘，全盘利润率为',
+              mode:'transverse',
+              type: "text",
+              name: "applyTime",
+              level:6,
+              numbers:1,
+              labelWidth:'300px'
+            },{
+              label: '按当前价格年度5%涨幅拉通全盘，全盘利润率为',
+              type: "text",
+              mode:'transverse',
+              name: "applyTime",
+              level:6,
+              numbers:1,
+              labelWidth:'300px'
+            },
+            //level7
+            {
+              label: '方案名称',
+              type: "input",
+              mode:'transverse',
+              name: "applyTime",
+              level:7,
+              numbers:3,
+            },
+            {
+              label: '生效日期',
+              type: "date",
+              mode:'transverse',
+              name: "applyTime",
+              level:7,
+              numbers:3,
+            },
+            {
+              label: '失效日期',
+              type: "date",
+              name: "departmentName",
+              mode:'transverse',
+              level:7,
+              numbers:3,
+            },
+            {
+              label: '应用范围',
+              type: "text",
+              name: "applicantTime",
+              mode:'transverse',
+              level:7,
+              numbers:3,
+            },
+            //竖向表格
+            {
+              label: '折扣类型',
+              type: "text",
+              name: "applicantTime",
+              level:8,
+            },
+            {
+              label: '折扣项名称',
+              type: "text",
+              name: "applicantTime",
+              level:8,
+            },
+            {
+              label: '计算方法',
+              type: "text",
+              name: "applicantTime",
+              level:8,
+            },
+            {
+              label: '折扣分类',
+              type: "text",
+              name: "applicantTime",
+              level:8,
+            },
+            {
+              label: '折扣(%)',
+              type: "text",
+              name: "applicantTime",
+              level:8,
+            },
+            {
+              label: '折扣金额',
+              type: "text",
+              name: "applicantTime",
+              level:8,
+            },
+            {
+              label: '指定房间',
+              type: "text",
+              name: "applicantTime",
+              level:8,
+            },
+            //付款方式
+            {
+              label: '付款方式名称',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            {
+              label: '生效日期',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            {
+              label: '失效日期',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            {
+              label: '应用范围',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            {
+              label: '贷款选项',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            {
+              label: '详细',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            //一房一价表
+            {
+              label: '业态名称',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            {
+              label: '楼栋名称',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            },
+            {
+              label: '详细',
+              type: "text",
+              name: "applicantTime",
+              level:9,
+            }
+          ]
+        },
+        {
+          title:"审批要点",
+          mode:'vertical',
+          subtitle:['注：整盘货值折损≥2%时，系统将红灯预警','注：单批次货值折损≥5%时，系统将红灯预警','注：对标战规版利润额≥3000万折损or战规版净利率≥3%折损时系统将红灯预警',],
+          subtitleIcon:[['lamp','green'],['lamp','green'],['lamp','green']],
+          inputList:[
+            {
+              label:"整盘货值变化",
+              type:'text',
+              name:'change'
+            },
+            {
+              label:"战规版货值",
+              type:'text',
+              name:'change'
+            },
+            {
+              label:"货值折损（调整后-战规版）",
+              type:'text',
+              name:'change'
+            },
+            {
+              label:"货值损益率",
+              type:'text',
+              name:'change'
+            },
+            {
+              label:"单批次定调价货值变化",
+              type:'text',
+              name:'change',
+              level:1
+            },
+            {
+              label:"战规版货值",
+              type:'text',
+              name:'change',
+              level:1
+            },{
+              label:"调整后货值",
+              type:'text',
+              name:'change',
+              level:1
+            },
+            {
+              label:"货值折损（调整后-战规版）",
+              type:'text',
+              name:'change',
+              level:1
+            },{
+              label:"货值损益率",
+              type:'text',
+              name:'change',
+              level:1
+            },{
+              mode:'custom',
+              component:"floatingPriceChange",
+              level:2
+            }
+          ]
+        },
+        {
+          title:'附件',
+          mode:'transverse',
+          inputList:[{
+            name:'files',
+            type:'fileList',
+            label:'附件列表',
+            action:'aa',
+            fileList:[{name:'一房一价表.xlsx',url:''}],
+            btnInfo:'上传'
+          }]
+        }
+        ]
+      }
+    },
+    methods: {
+
+    }
+  }
+</script>
+
+<style>
+  .title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .lamp{
+    width: 16px;
+    height: 16px;
+    border-radius:50% ;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 3px;
+  }
+  .green{
+    background-color:#00ff00;
+    border: 1px solid #00bb00;
+  }
+  .red{
+    background-color: red;
+    border: 1px solid #bb0000;
+  }
+</style>

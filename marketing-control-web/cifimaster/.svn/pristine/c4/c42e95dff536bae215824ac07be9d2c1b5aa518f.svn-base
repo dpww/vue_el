@@ -1,0 +1,165 @@
+<template>
+  <div class="reportForms container">
+    <!-- <div class="title">原有报表</div> -->
+    <div class="fromList">
+      <el-collapse v-model="activeNames">
+        <el-collapse-item :name="0">
+          <template slot="title">
+            <div class="title">
+              <h3>我的常用报表</h3>
+            </div>
+          </template>
+          <el-row :gutter='24'>
+            <template v-if="used.length>0">
+              <el-col :span='8' v-for="(form,key) in used" :key="key">
+                <a @click.prevent="openWindow($event,{suID:form.suID,menuID:form.id})" :href="form.url"
+                  target='_blank'><img src="../../assets/images/临时_20191029151910.png" alt="">{{form.title}}</a>
+              </el-col>
+            </template>
+            <span v-else style="color: #999;line-height: 35px; font-size: 13px;display: block;text-align: center;">暂无数据</span>
+          </el-row>
+        </el-collapse-item>
+        <template v-for="(item,index) in list">
+          <el-collapse-item :title="item.title" :name="index+1">
+            <template slot="title">
+              <div class="title">
+                <h3 >{{item.title}}</h3>
+              </div>
+            </template>
+            <el-row :gutter='24'>
+              <template v-if="item.childMap.length>0">
+                <el-col :span='8' v-for="(form,key) in item.childMap" :key="key">
+                  <a @click.prevent="openWindow($event,{suID:form.suID,menuID:form.id})" :href="form.url"
+                    target='_blank'><img src="../../assets/images/临时_20191029151910.png" alt="">{{form.title}}</a>
+                </el-col>
+              </template>
+              <span v-else style="color: #999;line-height: 35px; font-size: 13px;display: block;text-align: center;">暂无数据</span>
+            </el-row>
+          </el-collapse-item>
+        </template>
+      </el-collapse>
+    </div>
+    <iframe name="frame" :src="myurl" frameborder="0" style="width:0;height:0;"></iframe>
+    <iframe name="frame" src="/my/" frameborder="0" style="width:0;height:0;"></iframe>
+  </div>
+</template>
+
+<script>
+  var localurl = location.href;
+  var myurl = "http://sales-test.cifi.com.cn:9060";
+  if (localurl.indexOf("salesmgt.cifi.com.cn") != -1) {
+    myurl = "http://sales.cifi.com.cn:9060";
+  }
+  import {
+    get,sendJSON
+  } from '@/api/request'
+  export default {
+    name: 'reportForms',
+    data() {
+      return {
+        userName: localStorage.getItem('username'),
+        testName: '/PubPlatform/Nav/Home/Default.aspx',
+        myurl: myurl,
+        list:[],
+        activeNames:[0],
+        used:[]
+      }
+    },
+    created() {
+      sendJSON("/report/getAuthorizationData",{UserId:localStorage.getItem('id')}).then(res=>{
+        this.list=res.result.data.content.sqReport;
+        this.used=res.result.data.content.cyReport;
+        console.log(res.result.data.content.sqReport.length);
+        res.result.data.content.sqReport.forEach((item,index)=>this.activeNames.push(index+1))
+      })
+    },
+    methods: {
+      openWindow($event,params){
+        sendJSON("/report/addCommomUserReportMenus",{...params,userID:localStorage.getItem('id')}).then(res=>{
+          console.log($event);
+        _paq.push(['trackEvent', '点击', '报表', '跳转报表']);
+          if(res.result.code==200)
+          sendJSON("/report/getAuthorizationData",{UserId:localStorage.getItem('id')}).then(res=>{
+            this.list=res.result.data.content.sqReport;
+            this.used=res.result.data.content.cyReport;
+          })
+        });
+        let url = $event.target.href;
+        let width = width || window.screen.width;
+        let height = height || window.screen.height;
+        var left = (window.screen.width - width) / 2;
+        var top = (window.screen.height - height) / 2;
+        window.open(url, "_blank",
+          "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, left=" +
+          left + ", top=" + top + ", width=" + width + ", height=" + height);
+      }
+    }
+  }
+</script>
+<style lang="less">
+
+.reportForms{
+  a:hover{
+    // display: inline!important;
+    opacity: 0.5;
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #2661FF;
+    // line-height: 45px;
+  }
+}
+</style>
+<style lang='less' scoped>
+  .reportForms {
+    padding: 10px;
+    .el-collapse-item__header.is-active{
+      border-bottom: 1px solid #EBEEF5
+    }
+    .el-collapse-item__header{
+      font-size: 16px;
+      font-weight: bold;
+      text-indent: 1em;
+    }
+    .title {
+      text-align: left;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 20px;
+      padding-left: 0;
+      text-indent: 1em;
+      h3{
+        height: 100%;
+        line-height: initial;
+        font-size: 16px;
+        border-left:3px solid #2661FF;
+        .btn{
+          font-size: 20px;
+        }
+      }
+    }
+    .el-col-8 {
+      padding-left: 3% !important;
+    }
+    a {
+      font-size: 13px;
+      display: inline-block;
+      text-align: left;
+      border-radius: 3px;
+      width: 100%;
+      padding: 0 5px;
+      margin: 12px 0;
+    }
+    .fromList {
+      padding:10px 20px 20px;
+      box-shadow: 0 0 3px #ccc;
+      background-color: #fff;
+    }
+    img {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      vertical-align: middle;
+      margin-bottom: 2px;
+    }
+  }
+</style>

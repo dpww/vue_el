@@ -1,0 +1,29 @@
+/* .structure .t_cell,.t_header ,.house .t_cell,.time .t_cell, .time .cell{
+  text-align:left;
+} */
+
+.target .cell,.time .cell{
+  text-align: left;
+  margin-left: 10px;
+  padding: 0 !important;
+}
+.cost .cell{
+  text-align: center;
+}
+
+.structure .t_cell span{
+  margin-left: 10px;
+}
+.house .t_cell span{
+  margin-left: 10px;
+}
+.structure,.house{
+  box-sizing: border-box;
+}
+.t_cell,.cell{
+  /* text-align: left; */
+}
+
+.target .t_cell,.cell{
+  border-right: none !important;
+}

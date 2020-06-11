@@ -1,0 +1,52 @@
+.menuAdministrator-box .title>h3 {
+    font-weight: normal;
+}
+
+.menuAdministrator-box .demo-drawer .demo-ruleForm .el-form-item {
+    display: inline-block;
+    width: 330px;
+}
+
+.menuAdministrator-box .el-dialog .el-form .el-form-item {
+    display: inline-block;
+    width: 330px;
+}
+
+.menuAdministrator-box .el-dialog .el-form .el-form-item::nth-child(1) {
+    margin-right: 20px;
+}
+
+.menuAdministrator-box .content {
+    margin: 20px;
+}
+
+.menuAdministrator-box .content .content-left {
+    /* height: 500px; */
+    width: 100%;
+    margin-top: 10px;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: 1px solid #f0f0f0;
+    background: #fff;
+}
+
+.menuAdministrator-box .el-drawer__body {
+    margin: 0 20px;
+}
+
+.demo-drawer #el-drawer__title {
+    font-size: 16px;
+}
+
+.demo-drawer .demo-ruleForm .el-form-item {
+  /*  width: 45%;*/
+    display: inline-block;
+}
+
+.demo-drawer .demo-ruleForm .el-form-item .el-form-item__label {
+    font-weight: normal;
+}
+
+.demo-drawer .demo-ruleForm .demo-drawer__footer {
+    margin-left: 50px;
+}

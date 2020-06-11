@@ -1,0 +1,119 @@
+@import "@/assets/css/style.scss";
+div.cell{
+  &>a{
+    color: $listLinkFontColor;
+  }
+}
+.el-input__icon{
+  line-height: $inputHeight;
+}
+.el-input__inner{
+  height:$inputHeight ;
+  line-height: $inputHeight;
+}
+.el-button{
+  padding: 6px 15px;
+}
+
+.el-row,.sendFile{
+  .el-button+div,.up{
+    display: inline-block;
+    .el-upload--picture-card{
+      background-color: transparent;
+      width: auto;
+      height: auto;
+      border: none;
+      line-height: initial;
+      vertical-align: middle;
+    }
+  }
+}
+.el-form-item{
+  margin-bottom: 0;
+}
+body .el-select{
+	width:auto;
+  &+.el-row .el-button{
+    position: relative;
+    left: 30px;
+  }
+}
+.el-form-item__label,.el-input{
+  font-size: $formFontSize;
+}
+.xuHuiBtn{
+  width: 65px;
+  height: 32px;
+  font-size: 12px;
+  border-radius: 3px;
+  text-align: center;
+  outline: none;
+  border-width: 1px;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+.xuHuiBtn.long{
+  width: 80px;
+  height: 32px;
+}
+/* 主按钮 */
+.xuHuiBtn.main{
+  background-color: #2761ff!important;
+  border-color:#2359ef!important;
+  color: #fff;
+  &:hover{
+    background-color:#023BD8!important;
+    border-color:#073CCC !important;
+  }
+  &:active{
+    background-color:#5682FF!important;
+    border-color:#4571F1 !important;
+  }
+}
+.xuHuiBtn:disabled{
+  background-color:#EFF2F4!important;
+  border-color:#E8E8E8!important ;
+  color: #C9C9C9!important;
+}
+/* 警告按钮 */
+.xuHuiBtn.alert{
+  background-color: #FAAD13!important;
+  border-color:#EBA20F !important;
+  &:hover{
+    background-color:#E79B05!important;
+    border-color:#D08A00 !important;
+  }
+  &:active{
+    background-color:#FBC75F!important;
+    border-color:#F7B83C!important;
+  }
+}
+/* 危险按钮 */
+.xuHuiBtn.danger{
+  background-color:#FD0D00!important;
+  border-color:#E90C00!important ;
+  &:hover{
+    background-color:#E90200!important;
+    border-color:#DC0200!important ;
+  }
+  &:active{
+    background-color:#FF817B!important;
+    border-color:#FF756E!important;
+  }
+}
+/* 次按钮 */
+.xuHuiBtn.secondary{
+  background-color:#FFFFFF!important;
+  border-color:#EFEFEF!important;
+  color: #333333!important;
+  &:hover{
+    background-color:#2761FF!important;
+    border-color:#2359EF!important;
+    color: #fff!important;
+  }
+  &:active{
+    background-color:#5682FF!important;
+    border-color:#4571F1!important ;
+    color: #fff!important;
+  }
+}

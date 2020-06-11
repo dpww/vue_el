@@ -1,0 +1,95 @@
+import axios from 'axios'
+import {
+  MessageBox,
+  Message
+} from 'element-ui'
+import store from '@/store'
+import {
+  getToken
+} from '@/utils/auth'
+
+// create an axios instance
+const service = axios.create({
+  // withCredentials: true, // send cookies when cross-domain requests
+  baseURL: process.env.VUE_APP_BASE_API,
+  timeout: 60 * 1000 // request timeout
+})
+// request interceptor
+service.interceptors.request.use(
+  config => {
+    store.dispatch('app/addLoadings'); //加载loading遮罩。
+    if (localStorage.getItem('token') != undefined) {
+      config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token')
+      config.headers['token'] = localStorage.getItem('token')
+      config.headers['username'] = localStorage.getItem('username')
+    }
+    return config
+  },
+  error => {
+    // do something with request error
+    console.log(error) // for debug
+    return Promise.reject(error)
+  }
+)
+
+// response interceptor
+service.interceptors.response.use(
+  /**
+   * Determine the request status by custom code
+   * Here is just an example
+   * You can also judge the status by HTTP Status Code
+   */
+  response => {
+    const res = response.data
+    store.dispatch('app/reduceLoadings'); //关闭loading遮罩。
+    //console.log(res)
+    // if the custom code is not 20000, it is judged as an error.
+    if (res.code !== 0 && res.code !== 200) {
+      _paq.push(['trackEvent', '错误', res.code, res.messages || res.message || 'Error']);
+      Message({
+        message: res.messages || res.message || '请求失败,请退出登录重试或联系管理员',
+        type: 'error',
+        duration: 5 * 1000
+      })
+      // 没有菜单权限
+      if (res.code === "-100005") {
+        store.dispatch('user/resetToken').then(() => {
+
+          //window.location.href = process.env.VUE_APP_LOGIN_URL;
+          window.location.href = process.env.VUE_APP_LOGOUT_URL;
+          //this.$router.push('/login');
+        })
+      }
+      // Token过期
+      if (res.code === '-100013') {
+        // to re-login
+        MessageBox.confirm('登录状态过期，请重新登录！', '请重新登录', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+          .then(() => {
+            store.dispatch('user/resetToken').then(() => {
+              //window.location.href = process.env.VUE_APP_LOGOUT_URL;
+              this.$router.push('/login');
+            })
+          })
+      }
+      return Promise.reject(new Error(res.messages || 'Error'))
+    } else {
+      return res
+    }
+  },
+  error => {
+    store.dispatch('app/reduceLoadings'); //关闭loading遮罩。
+    console.log('err' + error) // for debug
+    _paq.push(['trackEvent', '错误', '请求错误', error.messages || 'Error']);
+    Message({
+      message: "请求失败,请退出登录重试或联系管理员",
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(error)
+  }
+)
+export default service

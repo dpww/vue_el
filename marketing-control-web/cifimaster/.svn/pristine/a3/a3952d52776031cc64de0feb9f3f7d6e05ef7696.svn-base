@@ -1,0 +1,687 @@
+<template>
+  <div class="offerChangeHouse app-container">
+    <el-row class="container">
+      <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse-item name="1">
+          <template slot="title">
+            <h3 class="titleText">基本信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">事业部:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input1"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">项目名称：</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input2"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">发起人:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input3"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">发起日期:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input4"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="2">
+          <template slot="title">
+            <h3 class="titleText">原房间认购信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">房间:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input5"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">客户:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input6"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">认购时间:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input7"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">认购金额:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input8"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">签约期限时间:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input9"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">已到账金额:</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input10"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="3">
+          <template slot="title">
+            <h3 class="titleText">换房信息</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">指标:</el-col>
+                  <el-col :span="12" class="bd_n">原房间信息</el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">新房间信息</el-col>
+                  <el-col :span="12" class="bd_n bd_r">差值(新房间-原房间)</el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">房间:</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input11"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input12"></el-input>
+                  </el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input13"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">业态:</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input14"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input15"></el-input>
+                  </el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input16"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">建筑面积:</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input17"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input18"></el-input>
+                  </el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input19"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">套内面积:</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input20"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input21"></el-input>
+                  </el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input22"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">建筑单价:</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input23"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input24"></el-input>
+                  </el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input25"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">建筑总价:</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input26"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input27"></el-input>
+                  </el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input28"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="4">
+          <template slot="title">
+            <h3 class="titleText">换房原因</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">换房类型</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input29"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">换房原因</el-col>
+                  <el-col :span="16" class="bd_n bd_r">
+                    <el-input v-model="input30"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n">原因说明:</el-col>
+                  <el-col :span="16" class="bd_n">
+                    <el-input v-model="input31"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="8" class="bd_n"></el-col>
+                  <el-col :span="16" class="bd_n bd_r"></el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="5">
+          <template slot="title">
+            <h3 class="titleText">原房间重新定价</h3>
+          </template>
+          <div class="content">
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n"></el-col>
+                  <el-col :span="12" class="bd_n">原价格信息</el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">新价格信息</el-col>
+                  <el-col :span="12" class="bd_n bd_r">差值(新价格-原价格)</el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">建筑单价(元/㎡)</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input31"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n"></el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input32"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">套内单价(元/㎡)</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input33"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n"></el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input34"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row class="bd_w">
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n">标准总价(元/㎡)</el-col>
+                  <el-col :span="12" class="bd_n">
+                    <el-input v-model="input35"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="12">
+                <el-row>
+                  <el-col :span="12" class="bd_n"></el-col>
+                  <el-col :span="12" class="bd_n bd_r">
+                    <el-input v-model="input36"></el-input>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="6">
+          <template slot="title">
+            <h3 class="titleText">附件</h3>
+          </template>
+          <!-- <div class="content">
+            <div class="footer">
+              <h2>直系亲属更名必须上传直系亲属证明文件</h2>
+              <ul class="footer_list">
+                <li>更名原因的凭证</li>
+                <li>《解除协议（更名使用）》</li>
+                <li>直系亲属证明</li>
+              </ul>
+            </div>
+          </div>
+          <el-form>
+            <el-form-item label="附件">
+              <el-upload
+                class="upload-demo"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                multiple
+                :limit="3"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
+            </el-form-item>
+          </el-form>-->
+        </el-collapse-item>
+      </el-collapse>
+    </el-row>
+  </div>
+</template>
+
+<script>
+import processForm from "@/views/component/form.vue";
+import { sendJSONALLPATH } from "@/api/request";
+import { weekPlanSort } from "@/utils/methods";
+import { examineInfo } from "@/api/offerFlow";
+
+export default {
+  name: "offerChangeHouse",
+  components: {
+    processForm
+  },
+  data() {
+    return {
+      list: [
+        {
+          title: "基本信息",
+          type: "transverse",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input"
+            },
+            {
+              title: "事业部",
+              type: "select",
+              name: "select",
+              options: [
+                {
+                  label: "选项1",
+                  value: 1
+                },
+                {
+                  label: "选项2",
+                  value: "2"
+                }
+              ]
+            },
+            {
+              title: "radio",
+              type: "radio",
+              options: [
+                {
+                  label: "选项1",
+                  value: "1"
+                },
+                {
+                  label: "选项2",
+                  value: "2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          title: "基本信息2",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input2"
+            }
+          ]
+        },
+        {
+          title: "基本信息3",
+          formList: [
+            {
+              title: "事业部",
+              type: "input",
+              name: "input3"
+            }
+          ]
+        }
+      ],
+      values: {
+        input: 123,
+        select: 1,
+        input2: 12,
+        input3: 1,
+        radio: 2
+      },
+      activeNames: ["1", "2", "3", "4", "5"],
+      value1: "",
+      input1: "浙江事业部",
+      input2: "绿地旭辉城（杭州）-绿地旭辉城全期111111111111111111111111111111",
+      input3: "系统管理员",
+      input4: "2019-09-09",
+      input5: "是",
+      input6: "皮卡丘",
+      input7: "棒棒棒",
+      input8: "旭辉绿地旭辉城(杭州)旭辉绿地旭辉城",
+      input9: "2019-09-09",
+      input10: "59.97m2",
+      input11: "29,558.26元  /  m2",
+      input12: '1,671,693.00元',
+      input13: '是',
+      input14: '97折',
+      input15: '5000元',
+      input16: "直系亲属更名",
+      input17: "棒棒棒",
+      input18: "1000元",
+      input19: "客户申请直系亲属更名",
+      input20: "59.97m2",
+      input21: "29,558.26元  /  m2",
+      input22: '1,671,693.00元',
+      input23: '是',
+      input24: '97折',
+      input25: '5000元',
+      input26: "直系亲属更名",
+      input27: "棒棒棒",
+      input28: "1000元",
+      input29: "客户申请直系亲属更名",
+      input30: '97折',
+      input31: '5000元',
+      input32: "直系亲属更名",
+      input33: "棒棒棒",
+      input34: "1000元",
+      input35: "客户申请直系亲属更名",
+      input36: "客户申请直系亲属更名",
+    };
+  },
+  methods: {
+    handleChange(val) {
+      console.log(val);
+    },
+    getInfo() {
+      examineInfo({
+        json_id: "fad8c3b6-22fd-e911-80bb-005056a37afa"
+      }).then(res => {
+        console.log(JSON.parse(res.result[0].flow_json));
+        this.formInfo = {
+          ...JSON.parse(res.result[0].flow_json)
+        };
+        this.input1 = this.formInfo.BName;
+        this.input2 = this.formInfo.ProjectFullName;
+        this.input3 = this.formInfo.UserName;
+        this.input4 = this.formInfo.ApplyDate;
+        this.input5 = this.formInfo.IsPd;
+        this.input6 = this.formInfo.CstName;
+        this.input7 = this.formInfo.Zygw;
+        this.input8 = this.formInfo.RoomInfo;
+        this.input9 = this.formInfo.QSDate;
+        this.input10 = this.formInfo.BldArea;
+        this.input11 = "";
+        this.input12 = "";
+        this.input13 = this.formInfo.Zkds;
+        this.input14 = this.formInfo.ZkInfo;
+        this.input15 = "";
+        this.input16 = this.formInfo.YqyDate;
+        this.input17 = this.formInfo.Yjyhfd;
+        this.input18 = this.formInfo.SumFkAmount;
+        this.input19 = this.formInfo.YgCjAmount;
+        this.input20 = this.formInfo.FkType;
+        this.input21 = this.formInfo.AlterType;
+        this.input22 = this.formInfo.x_IsApplyPolicy;
+        this.input23 = " ";
+        this.input24 = " ";
+        this.input25 = this.formInfo.Reason;
+        this.input26 = this.formInfo.FqNum;
+        this.input27 = this.formInfo.DtlCount;
+        this.input28 = this.formInfo.PublicYgCjAmount;
+        this.input29 = " ";
+        this.input30 = " ";
+        this.input31 = " ";
+        this.input32 = " ";
+        this.input33 = " ";
+        this.input34 = " ";
+        this.input35 = " ";
+        this.input36 = " ";
+      });
+    }
+  },
+  created() {
+    this.getInfo();
+    /*
+      //加载周计划程序已加载至2028年如果需要重新初始化打开注释重新发送，发送结束后请注释掉一下的代码
+      let sendList=[];
+      for(let i=2018;i<=2028;i++){
+        for(let j=1;j<=12;j++){
+          sendList.push(...weekPlanSort(`${i}-${j}-01`,true));
+        }
+      }
+      sendJSONAllPath('http://192.168.34.66:8001/weekRule/getCommonWeekRule',{_param:sendList}); */
+  }
+};
+</script>
+<style lang="less" scoped>
+.el-col-8 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
+<style lang='less'>
+.offerChangeHouse {
+  .content {
+    padding: 0 20px;
+  }
+
+  .titleText {
+    border-left: 3px solid #2661ff;
+    height: 20px;
+    line-height: 20px;
+    text-indent: 1em;
+    font-size: 16px;
+  }
+  input.el-input__inner {
+    font-size: 12px;
+    color: #333;
+    // background-color: pink;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .container .el-collapse input.el-input__inner {
+    font-size: 12px;
+    color: #333;
+    background-color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    // background-color: red;
+    border: none;
+  }
+  input::placeholder {
+    font-size: 12px;
+  }
+
+  .bd_w {
+    border-top: 1px solid #ccc;
+
+    .bd_n {
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 12px;
+
+      &:first-child {
+        border-right: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        text-align: right;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .bd_r {
+      border-right: 1px solid #ccc;
+    }
+  }
+
+  .more {
+    padding: 0 20px;
+
+    .bd_left {
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-left: 1px solid #ccc;
+    }
+
+    .bd_bottom {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+
+  .footer {
+    h2 {
+      padding-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .footer_list {
+      list-style: none;
+
+      li {
+        height: 30px;
+        line-height: 30px;
+        color: #2761ff;
+        list-style: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+</style>

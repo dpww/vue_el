@@ -1,0 +1,19 @@
+@import "@/assets/css/style.scss";
+div.cell{
+  &>a{
+    color: $listLinkFontColor;
+  }
+}
+.el-row,.sendFile{
+  .el-button+div,.up{
+    display: inline-block;
+    .el-upload--picture-card{
+      background-color: transparent;
+      width: auto;
+      height: auto;
+      border: none;
+      line-height: initial;
+      vertical-align: middle;
+    }
+  }
+}

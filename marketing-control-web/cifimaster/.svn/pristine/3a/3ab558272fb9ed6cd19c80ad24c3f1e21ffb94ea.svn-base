@@ -1,0 +1,369 @@
+<template>
+  <process-form
+    :title="TITLE"
+    :formlist="list"
+    :value="value"
+    labelwidth="210px"
+    :readonly="true"
+  ></process-form>
+</template>
+<script>
+import processForm from "@/views/component/formV2.vue";
+import { examineInfo } from "@/api/offerFlow";
+export default {
+  components: {
+    processForm
+  },
+  data() {
+    return {
+      value: {
+        businessDivision: "事业部",
+        projectName: "吴越府项目一期（浙江）",
+        departmentName: "系统管理员",
+        applicantTime: "2019-09-09",
+        room: "旭辉绿地旭辉城全期(杭州)-绿地旭辉大厦-1612",
+        client: "甄有仟",
+        propertyConsultant: "王斌",
+        termsOfPayment: "按揭付款",
+        signingTime: "2019-08-07",
+        coveredArea: "162.06",
+        insideSpace: "151.18",
+        architecturePrice: "23.684.05",
+        standardPrice: "3,838,237.00",
+        signingSum: "1,671,693.00",
+        accountSum: "1,671,693.00",
+        visitingChannels: "阵地包装",
+        sentBrokerage: 7600.0,
+        discount: "97.00%",
+        discountInfo: "标准总价-总价优惠38237.00",
+        discountExplain: "法院判决退房",
+        controlGist: "新房间的单价、面积、总价均小于原房间时，预警红灯。",
+        oldRoomInfo: "退房-法院判决",
+        causeClassification: `各位领导好！ 此单是关于吴越府18-102黄艳华退房申请。客户黄艳华于2018年6月
+              29日认购吴越府18-102，支付首付款50万元整，约定2018年7月18日前支付剩余首付款102万元整签订
+              该套房屋的《商品房买卖合同》，付款方式为按揭。7月10日，黄艳华的母亲黄凤英女士声称其女患有中
+              度精神病II级，属于限制民事行为能力人，生活自理能力具有一定障碍，并无单独作出买房决定的能力。
+              7月17日已向杭州市临安区法院起诉我方，为证明黄艳华处于精神病状态，其母亲也提供了：（1）仍处于有
+              效期内的黄艳华患有精神病《残疾人证》；（2）自2008年至2018年的精神病诊断的病例证明，证明其长期服用
+              精神类药物；（3）黄艳华女士目前处于无业状态，不能从工作方面证明其正常的精神状态。经咨询法务意见，
+              法务认为这个案件开庭赢面不大，虽然其限制民事行为能力的事实未经法院判决确认，但黄艳华女士属于限制行
+              为能力人是事实，黄艳华的购房行为应当经过其监护人黄凤英女士的确认。鉴于此，希望领导能同意其客户退房，
+              不支付违约金退还黄艳华已支付的50万元整。烦请领导批准。`,
+        newRoomInfo: "",
+        differenceValue: "",
+        roomChangeType: "低总价换高总价",
+        changeRoomsBecause: "其他原因",
+        causeExplain: "客户要求换房",
+        cause: "",
+        dataList: [
+          {
+            roomChangeType: "380,000.00",
+            changeRoomsBecause: "0",
+            causeExplain: "-380,000.00",
+            cause: "法院判决不收取违约金"
+          }
+        ],
+        roomPriceList: [
+          {
+            index: "建筑单价(元/㎡)",
+            originalPriceInfo: "0",
+            newPriceInfo: "0",
+            priceSpread: "0.00"
+          },
+          {
+            index: "套内单价(元/㎡)",
+            originalPriceInfo: "0",
+            newPriceInfo: "0",
+            priceSpread: "0.00"
+          },
+          {
+            index: "标准总价(元)",
+            originalPriceInfo: "0",
+            newPriceInfo: "0",
+            priceSpread: "0.00"
+          }
+        ]
+      },
+      list: [
+        {
+          title: "基本信息",
+          mode: "transverse",
+          numbers: 2,
+          inputList: [
+            {
+              label: "事业部",
+              type: "date",
+              name: "businessDivision"
+            },
+            {
+              label: "项目名称",
+              type: "date",
+              name: "projectName"
+            },
+            {
+              label: "发起人",
+              type: "date",
+              name: "departmentName"
+            },
+            {
+              label: "发起日期",
+              type: "date",
+              name: "applicantTime"
+            }
+          ]
+        },
+        {
+          title: "签约信息",
+          mode: "transverse",
+          numbers: 2,
+          inputList: [
+            {
+              label: "客户",
+              type: "date",
+              name: "client"
+            },
+            {
+              label: "置业顾问",
+              type: "date",
+              name: "propertyConsultant"
+            },
+            {
+              label: "房间",
+              type: "date",
+              name: "room"
+            },
+            {
+              label: "签约时间",
+              type: "date",
+              name: "signingTime"
+            },
+            {
+              label: "建筑面积",
+              type: "date",
+              name: "coveredArea"
+            },
+            // {
+            //   label: "套内面积",
+            //   type: "date",
+            //   name: "insideSpace"
+            // },
+            {
+              label: "建筑单价",
+              type: "date",
+              name: "architecturePrice"
+            },
+            // {
+            //   label: "签约金额",
+            //   type: "date",
+            //   name: "standardPrice"
+            // },
+            // {
+            //   label: "折扣",
+            //   type: "date",
+            //   name: "termsOfPayment"
+            // },
+            {
+              label: "签约金额",
+              type: "date",
+              name: "signingSum"
+            },
+            {
+              label: "折扣",
+              type: "date",
+              name: "accountSum"
+            },
+            {
+              label: "折扣说明",
+              type: "date",
+              name: "visitingChannels"
+            },
+            {
+              label: "已到账金额",
+              type: "date",
+              name: "sentBrokerage"
+            },
+            {
+              label: "来访渠道",
+              type: "date",
+              name: "discount"
+            },
+            {
+              label: "已发佣金",
+              type: "date",
+              name: "discountInfo",
+              numbers: 1
+            }
+          ]
+        },
+        {
+          title: "退房说明",
+          mode: "transverse",
+          numbers: 2,
+          inputList: [
+            {
+              label: "变更类型",
+              type: "date",
+              name: "discountExplain"
+            },
+            {
+              label: "原因分类",
+              type: "date",
+              name: "oldRoomInfo"
+            },
+            {
+              label: "变更说明",
+              type: "date",
+              name: "causeClassification",
+              numbers: 1
+            }
+          ]
+        },
+        {
+          title: "违约金说明",
+          mode: "vertical",
+          numbers: 2,
+          dataName: ["dataList"],
+          subtitle: [
+            "注：退房必须收取违约金，不收或少收时需要说明原因或上传相关附件"
+          ],
+          inputList: [
+            {
+              label: "合同约定违约金(元)",
+              type: "date",
+              name: "roomChangeType"
+            },
+            {
+              label: "申请收取违约金(元)",
+              type: "date",
+              name: "changeRoomsBecause"
+            },
+            {
+              label: "差值(元)（申请-约定）",
+              type: "date",
+              name: "causeExplain"
+            },
+            // {
+            //   label: "原因",
+            //   type: "date",
+            //   name: "cause"
+            // }
+          ]
+        },
+        {
+          title: "原房间重新定价",
+          mode: "vertical",
+          numbers: 4,
+          dataName: ["roomPriceList"],
+          inputList: [
+            {
+              label: "",
+              type: "date",
+              name: "index"
+            },
+            {
+              label: "原价格信息",
+              type: "date",
+              name: "originalPriceInfo"
+            },
+            {
+              label: "新价格信息",
+              type: "date",
+              name: "newPriceInfo"
+            },
+            {
+              label: "差价(新价格-原价格)",
+              type: "date",
+              name: "priceSpread"
+            }
+          ]
+        },
+        {
+          title: "附件",
+          mode: "transverse",
+          numbers: 4,
+          inputList: [
+            {
+              label: "法院传票和客户起诉书",
+              type: "date",
+              name: "index",
+              numbers: 1
+            },
+            {
+              label: "公司发送的催签函和解约没收定金函.pd",
+              type: "date",
+              name: "index",
+              numbers: 1
+            },
+            {
+              label:
+                "定金合同（定金收据、付款承诺书、定金收据及支付凭证、购房人身份证、购房折扣确认单等）.pdf",
+              type: "date",
+              name: "index",
+              numbers: 1
+            },
+            {
+              label: "客户要求公司退还定金以及在杭州七院的诊断证明.pdf",
+              type: "date",
+              name: "index",
+              numbers: 1
+            }
+          ]
+        }
+      ],
+      TITLE:''
+    };
+  },
+  methods: {
+    useInfo(){
+      examineInfo(
+        {json_id:"1880f5bc-14fd-e911-80bb-005056a37afa"}
+      ).then(res=>{
+        console.log(res.result[0]);
+        let json=JSON.parse(res.result[0].flow_json)
+        console.log(json);
+        this.value.businessDivision=json.BName
+        this.value.projectName=json.ProjectFullName
+        this.value.departmentName=json.UserName
+        this.value.applicantTime=json.ApplyDate
+        this.value.room=json.RoomInfo
+        this.value.client=json.CstName
+        this.value.propertyConsultant=json.Zygw
+        this.value.termsOfPayment=json.FkState
+        this.value.signingTime=json.QSDate
+        this.value.coveredArea=json.BldArea
+        this.value.architecturePrice=json.CjBldPrice
+        // this.value.standardPrice=json.CjRmbTotal
+        this.value.signingSum=json.CjRmbTotal
+        // this.value.accountSum=json.DiscntRemark
+        this.value.accountSum=""
+        this.value.visitingChannels=json.DiscntRemark
+        this.value.sentBrokerage=json.GetAmount
+        this.value.discount=""
+        this.value.discountInfo=""
+       this.value.discountExplain= json.AlterType
+       this.value.oldRoomInfo=json.AlterReason
+       this.value.causeClassification=json.Reason
+       this.TITLE="【销售变更-签约后退房】"+json.RoomInfo+"退房申请"
+        //  dataList: [
+        //   {
+        //     roomChangeType: "380,000.00",
+        //     changeRoomsBecause: "0",
+        //     causeExplain: "-380,000.00",
+        //     cause: "法院判决不收取违约金"
+        //   }
+        // ],
+       this.value.dataList[0].roomChangeType=json.HandCharge
+       this.value.dataList[0].changeRoomsBecause=json.HandChargeRate
+       this.value.dataList[0].causeExplain=parseInt(json.HandCharge)-parseInt(json.HandChargeRate)
+
+      })
+    }
+  },
+  created(){
+    this.useInfo()
+  }
+};
+</script>
+
+<style lang='less' scoped>
+</style>
